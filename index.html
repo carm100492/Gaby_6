@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TU PROFE CARLOS — Números Complejos y sus Operaciones</title>
+<style>
+:root{
+  --ink:#16233F; --ink-2:#1F3358; --ink-3:#0E1729;
+  --gold:#C9A227; --gold-dark:#9C7C15;
+  --teal:#2F7A6B; --teal-dark:#215A4F;
+  --parchment:#F6F3EA; --paper:#FFFDF9;
+  --text:#1B1F27; --muted:#5B6472; --line:#DAD3C2;
+  --ok:#2F7A4B; --ok-bg:#E7F3EA; --bad:#B23A3A; --bad-bg:#FBEAEA;
+  --radius:12px;
+  --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+  --sans: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--parchment);color:var(--text);font-family:var(--sans);}
+body{padding-bottom:78px;}
+h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);margin:0 0 8px;}
+p{line-height:1.55;margin:0 0 10px;}
+sup{font-size:.72em;}
+sub{font-size:.72em;}
+.hidden{display:none !important;}
+img{max-width:100%;}
+
+/* HEADER */
+header.appheader{
+  background:linear-gradient(135deg,var(--ink),var(--ink-2));
+  color:#fff;padding:16px 16px 14px;text-align:center;
+  position:sticky;top:0;z-index:50;
+}
+header.appheader .owner{font-family:var(--serif);font-size:1.35rem;font-weight:700;}
+header.appheader .role{font-size:.8rem;opacity:.85;margin-top:2px;}
+header.appheader .inst{font-size:.85rem;color:var(--gold);font-weight:700;margin-top:2px;letter-spacing:.03em;}
+
+main{max-width:760px;margin:0 auto;padding:14px 14px 30px;}
+
+/* CARDS */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:0 2px 6px rgba(22,35,63,.06);padding:16px;margin-bottom:14px;}
+.hero{background:linear-gradient(135deg,var(--ink),var(--ink-2));color:#fff;border-radius:var(--radius);
+  padding:22px 18px;text-align:center;margin-bottom:16px;}
+.hero h1{color:#fff;font-size:1.5rem;}
+.hero .tagline{color:var(--gold);font-style:italic;margin-top:6px;font-size:.98rem;}
+.badge-offline{display:inline-block;margin-top:10px;background:rgba(255,255,255,.12);
+  border:1px solid var(--gold);color:var(--gold);border-radius:20px;padding:4px 14px;font-size:.75rem;letter-spacing:.06em;font-weight:700;}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.navcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 8px;text-align:center;cursor:pointer;transition:transform .12s;}
+.navcard:active{transform:scale(.97);}
+.navcard .ico{font-size:1.9rem;display:block;margin-bottom:6px;}
+.navcard .lbl{font-weight:700;color:var(--ink);font-size:.92rem;}
+.navcard .desc{font-size:.72rem;color:var(--muted);margin-top:3px;}
+
+/* BOTTOM NAV */
+nav.bottomnav{
+  position:fixed;left:0;right:0;bottom:0;z-index:100;background:var(--ink-3);
+  display:flex;justify-content:space-around;align-items:center;
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -2px 10px rgba(0,0,0,.25);
+}
+nav.bottomnav button{
+  background:none;border:none;color:#C9D2E6;font-family:var(--sans);
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:.65rem;padding:4px 6px;cursor:pointer;flex:1;
+}
+nav.bottomnav button .ico{font-size:1.25rem;}
+nav.bottomnav button.active{color:var(--gold);}
+
+/* BUTTONS */
+.btn{display:inline-block;background:var(--teal);color:#fff;border:none;border-radius:8px;
+  padding:11px 18px;font-size:.95rem;font-weight:700;cursor:pointer;text-align:center;}
+.btn:active{background:var(--teal-dark);}
+.btn.block{display:block;width:100%;}
+.btn.gold{background:var(--gold);color:var(--ink-3);}
+.btn.gold:active{background:var(--gold-dark);}
+.btn.outline{background:transparent;border:1.5px solid var(--teal);color:var(--teal-dark);}
+.btn.danger{background:var(--bad);}
+.btn.small{padding:7px 12px;font-size:.82rem;}
+input[type=text],input[type=password],input[type=number],select{
+  width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:.95rem;
+  background:#fff;color:var(--text);margin-bottom:10px;font-family:var(--sans);
+}
+label{font-size:.82rem;font-weight:700;color:var(--ink-2);display:block;margin-bottom:4px;}
+
+/* FORMULA BLOCK */
+.formula{background:var(--parchment);border:1px solid var(--gold);border-radius:10px;
+  padding:12px 16px;margin:10px 0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1.15rem;color:var(--ink);text-align:center;flex-wrap:wrap;gap:6px;}
+
+/* TABLES */
+table.parchment{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88rem;}
+table.parchment th{background:var(--ink);color:#fff;padding:8px;text-align:left;}
+table.parchment td{padding:8px;border-bottom:1px solid var(--line);}
+table.parchment tr:nth-child(even) td{background:#FBF8F0;}
+
+/* PROGRESS */
+.progress-bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin:8px 0 14px;}
+.progress-bar > div{height:100%;background:var(--teal);transition:width .25s;}
+
+/* OPTIONS (siempre verticales) */
+.opciones{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.opcion-btn{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);
+  border-radius:8px;padding:10px 12px;font-size:.92rem;cursor:pointer;color:var(--text);}
+.opcion-btn:active{background:#f2f0e8;}
+.opcion-btn.correcta{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);font-weight:700;}
+.opcion-btn.incorrecta{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);font-weight:700;}
+.opcion-btn[disabled]{cursor:default;}
+
+.tag{display:inline-block;background:var(--teal);color:#fff;font-size:.68rem;border-radius:12px;
+  padding:2px 10px;margin-bottom:6px;font-weight:700;letter-spacing:.03em;}
+.tag.gold{background:var(--gold);color:var(--ink-3);}
+.pasos{background:var(--parchment);border-left:3px solid var(--teal);padding:10px 12px;border-radius:0 8px 8px 0;margin-top:8px;}
+.pasos p{margin:0 0 6px;font-size:.9rem;}
+.pasos p:last-child{margin-bottom:0;}
+
+/* TOAST */
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink-3);color:#fff;padding:10px 18px;border-radius:20px;font-size:.85rem;
+  opacity:0;transition:all .25s;z-index:200;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+footer.appfooter{text-align:center;font-size:.72rem;color:var(--muted);padding:18px 10px 8px;}
+
+.svgbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;text-align:center;}
+.slider-row{display:flex;align-items:center;gap:10px;margin:8px 0;}
+.slider-row input[type=range]{flex:1;}
+.slider-row .val{min-width:52px;text-align:right;font-weight:700;color:var(--teal-dark);font-family:var(--serif);}
+
+.section-title{display:flex;align-items:center;gap:8px;margin:18px 0 8px;}
+.section-title .num{background:var(--ink);color:#fff;border-radius:50%;width:26px;height:26px;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;}
+
+.storagepanel{font-size:.82rem;background:var(--parchment);border:1px dashed var(--line);border-radius:8px;padding:10px;}
+.evalrow{border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:10px;background:#fff;}
+.evalrow .fid{font-family:monospace;color:var(--teal-dark);font-weight:700;}
+.evalrow .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.errbox{background:var(--bad-bg);color:var(--bad);border-radius:8px;padding:8px 12px;font-size:.85rem;margin-bottom:10px;}
+.okbox{background:var(--ok-bg);color:var(--ok);border-radius:8px;padding:8px 12px;font-size:.85rem;margin-bottom:10px;}
+
+/* PRINT */
+#printArea{display:none;}
+@media print{
+  body *{visibility:hidden;}
+  #printArea,#printArea *{visibility:visible;}
+  #printArea{display:block !important;position:absolute;left:0;top:0;width:100%;margin:0;padding:0;}
+  header.appheader,nav.bottomnav,footer.appfooter{display:none !important;}
+  .printq{page-break-inside:avoid;margin-bottom:14px;}
+  .printopts div{margin:2px 0;}
+  .pagebreak{page-break-before:always;}
+}
+</style>
+</head>
+<body>
+
+<header class="appheader">
+  <div class="owner">Carlos Andrés Romero Mendivil</div>
+  <div class="role">Plataforma educativa interactiva</div>
+  <div class="inst">TU PROFE CARLOS</div>
+</header>
+
+<main id="app"></main>
+
+<div id="toast"></div>
+
+<div id="printArea"></div>
+
+<footer class="appfooter">Carlos Andrés Romero Mendivil · Plataforma educativa interactiva · TU PROFE CARLOS · 100% sin conexión a internet</footer>
+
+<nav class="bottomnav">
+  <button data-view="inicio"><span class="ico">🏠</span>Inicio</button>
+  <button data-view="aprender"><span class="ico">📚</span>Aprender</button>
+  <button data-view="resueltos"><span class="ico">🧮</span>Resueltos</button>
+  <button data-view="estudiante"><span class="ico">👨‍🎓</span>Estudiante</button>
+  <button data-view="docente"><span class="ico">👨‍🏫</span>Docente</button>
+</nav>
+
+<script>
+/* =========================================================================
+   TU PROFE CARLOS — Números Complejos y sus Operaciones (Grado Noveno)
+   Plataforma 100% offline — un solo archivo HTML autónomo
+   ========================================================================= */
+
+/* ============================= 1. ALMACENAMIENTO ============================= */
+const DB = (function(){
+  let engine = null; // 'indexeddb' | 'localstorage'
+  let idb = null;
+  const DB_NAME = 'tuProfeCarlosDB_complejos';
+  const STORES = ['evaluaciones','resultados','config'];
+
+  function openIDB(){
+    return new Promise((resolve,reject)=>{
+      if(!('indexedDB' in window)){ reject('no-idb'); return; }
+      try{
+        const req = indexedDB.open(DB_NAME,1);
+        req.onupgradeneeded = function(e){
+          const db = e.target.result;
+          STORES.forEach(s=>{ if(!db.objectStoreNames.contains(s)) db.createObjectStore(s,{keyPath:'id'}); });
+        };
+        req.onsuccess = function(e){ idb = e.target.result; resolve(idb); };
+        req.onerror = function(){ reject('idb-error'); };
+      }catch(err){ reject(err); }
+    });
+  }
+
+  async function init(){
+    try{
+      await openIDB();
+      engine = 'indexeddb';
+    }catch(e){
+      engine = 'localstorage';
+      if(!localStorage.getItem('tpc_complejos')){
+        localStorage.setItem('tpc_complejos', JSON.stringify({evaluaciones:[],resultados:[],config:[]}));
+      }
+    }
+    return engine;
+  }
+
+  function lsData(){ return JSON.parse(localStorage.getItem('tpc_complejos')||'{"evaluaciones":[],"resultados":[],"config":[]}'); }
+  function lsSave(d){ localStorage.setItem('tpc_complejos', JSON.stringify(d)); }
+
+  function put(store, obj){
+    return new Promise((resolve,reject)=>{
+      if(engine==='indexeddb'){
+        try{
+          const tx = idb.transaction(store,'readwrite');
+          tx.objectStore(store).put(obj);
+          tx.oncomplete=()=>resolve(obj);
+          tx.onerror=()=>reject(tx.error);
+        }catch(err){ reject(err); }
+      }else{
+        const d = lsData();
+        const arr = d[store] || (d[store]=[]);
+        const idx = arr.findIndex(x=>x.id===obj.id);
+        if(idx>=0) arr[idx]=obj; else arr.push(obj);
+        lsSave(d); resolve(obj);
+      }
+    });
+  }
+
+  function getAll(store){
+    return new Promise((resolve,reject)=>{
+      if(engine==='indexeddb'){
+        try{
+          const tx = idb.transaction(store,'readonly');
+          const req = tx.objectStore(store).getAll();
+          req.onsuccess=()=>resolve(req.result||[]);
+          req.onerror=()=>reject(req.error);
+        }catch(err){ reject(err); }
+      }else{
+        const d = lsData();
+        resolve(d[store]||[]);
+      }
+    });
+  }
+
+  function del(store, id){
+    return new Promise((resolve,reject)=>{
+      if(engine==='indexeddb'){
+        try{
+          const tx = idb.transaction(store,'readwrite');
+          tx.objectStore(store).delete(id);
+          tx.oncomplete=()=>resolve(true);
+          tx.onerror=()=>reject(tx.error);
+        }catch(err){ reject(err); }
+      }else{
+        const d = lsData();
+        d[store] = (d[store]||[]).filter(x=>x.id!==id);
+        lsSave(d); resolve(true);
+      }
+    });
+  }
+
+  return { init, put, getAll, del, engineName:()=>engine };
+})();
+
+/* ============================= 2. UTILIDADES ============================= */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._tm);
+  toast._tm = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function randNonZero(min,max){ let v; do{ v=randInt(min,max); }while(v===0); return v; }
+function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=randInt(0,i); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function fmtSigned(n){ return n>=0 ? '+ '+n : '− '+Math.abs(n); }
+function complexToStr(a,b){
+  if(b===0) return `${a}`;
+  const bPart = (Math.abs(b)===1? 'i' : Math.abs(b)+'i');
+  if(a===0) return (b<0? '−'+bPart : bPart);
+  return `${a} ${b<0? '−':'+'} ${bPart}`;
+}
+function uid(prefix){ return prefix + Math.floor(100000+Math.random()*900000); }
+
+/* Codificación simple (no criptográfica) para respuestas correctas dentro
+   del archivo .formulario.json: Base64 + desplazamiento fijo (salt). */
+const SALT = 37;
+function encodeAnswer(indexNum){
+  const shifted = indexNum + SALT;
+  return btoa(String(shifted) + '::tpc');
+}
+function decodeAnswer(code){
+  try{
+    const raw = atob(code);
+    const num = parseInt(raw.split('::')[0],10);
+    return num - SALT;
+  }catch(e){ return -1; }
+}
+
+/* ============================= 3. CONTEXTOS Y BANCO DE PREGUNTAS =============================
+   TEMA: Números Complejos y sus Operaciones — Grado Noveno — Fundación, Magdalena
+   Capacidad conceptual: 500 (5 niveles x 100), lograda por generación paramétrica
+   (contextos x variables x variantes de redacción), NO por preguntas fijas.
+*/
+const CONTEXTOS = [
+  {lugar:"un taller de electrónica del colegio, en Fundación (Magdalena)", obj:"dos impedancias eléctricas"},
+  {lugar:"la feria de ciencias del I.E.D. John F. Kennedy", obj:"dos señales representadas como números complejos"},
+  {lugar:"un dron agrícola que sobrevuela los cultivos de palma cerca de Fundación", obj:"dos posiciones registradas en el plano complejo"},
+  {lugar:"la emisora comunitaria del municipio", obj:"dos ondas de radio representadas como complejos"},
+  {lugar:"un videojuego que programan los estudiantes de noveno", obj:"dos vectores de movimiento en el plano complejo"},
+  {lugar:"el mapa de rutas escolares de Fundación, Magdalena", obj:"dos puntos ubicados en el plano de Argand"},
+  {lugar:"una canoa que navega por el río cercano a Fundación", obj:"dos desplazamientos representados como números complejos"},
+  {lugar:"el laboratorio de física del colegio", obj:"dos mediciones de corriente eléctrica"},
+  {lugar:"un plano de la finca ganadera de la región", obj:"dos coordenadas registradas como números complejos"},
+  {lugar:"la antena de telecomunicaciones del municipio", obj:"dos señales complejas emitidas en distintos horarios"}
+];
+
+/* Errores conceptuales típicos por tipo de ejercicio (usados para construir distractores) */
+const ERRORES = {
+  suma:      ["error de signo al sumar la parte imaginaria","mezclar parte real con parte imaginaria","error aritmético simple en la suma"],
+  resta:     ["error de signo al restar (no distribuir el signo menos)","mezclar parte real con parte imaginaria","error aritmético simple en la resta"],
+  mult:      ["olvidar que i² = −1 (dejarlo como +1)","error de signo al distribuir el producto","error aritmético en alguno de los cuatro productos parciales"],
+  conjugado: ["cambiar el signo de la parte real en vez de la imaginaria","no cambiar ningún signo","confundir conjugado con opuesto"],
+  modulo:    ["olvidar la raíz cuadrada final (dejar la suma de cuadrados)","sumar los valores sin elevarlos al cuadrado","error de signo en uno de los cuadrados"],
+  division:  ["no multiplicar por el conjugado del denominador","error de signo al racionalizar","aplicar mal el producto en el denominador (no usar diferencia de cuadrados)"]
+};
+
+function nivelNombre(n){
+  return ["Básico","Intermedio","Avanzado","Profesional","Experto"][n-1];
+}
+
+/* ---- Construcción de un complejo aleatorio coherente según nivel ---- */
+function randComplex(nivel){
+  const rango = nivel<=2 ? [-9,9] : (nivel<=4 ? [-7,7] : [-6,6]);
+  let a = randInt(rango[0],rango[1]);
+  let b = randNonZero(rango[0],rango[1]);
+  return {a,b};
+}
+
+/* ---- Generadores de opciones con distractores por error conceptual ---- */
+function construirOpciones(correcta, generadorDistractor){
+  const set = new Set([correcta]);
+  const opciones = [correcta];
+  let intentos = 0;
+  while(opciones.length<4 && intentos<30){
+    intentos++;
+    const d = generadorDistractor();
+    if(d===null || d===undefined) continue;
+    const key = String(d);
+    if(!set.has(key)){ set.add(key); opciones.push(d); }
+  }
+  // relleno de seguridad si no se completaron 4 opciones distintas
+  while(opciones.length<4){
+    const extra = correcta + '·' + randInt(1,9);
+    if(!set.has(extra)){ set.add(extra); opciones.push(extra); }
+  }
+  const shuffled = shuffle(opciones.map((v,i)=>({v,orig:i===0})));
+  const correctIndex = shuffled.findIndex(o=>o.orig);
+  return { opciones: shuffled.map(o=>o.v), correctIndex };
+}
+
+/* ---- NIVEL 1: identificación básica ---- */
+function genNivel1(){
+  const tipo = pick(['parteReal','parteImag','clasificar','cuadrante']);
+  const {a,b} = randComplex(1);
+  const z = complexToStr(a,b);
+  const ctx = pick(CONTEXTOS);
+
+  if(tipo==='parteReal'){
+    const correcta = String(a);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>String(a + pick([-3,-2,-1,1,2,3])));
+    return {
+      enunciado:`En ${ctx.lugar} se registra el número complejo z = ${z}. ¿Cuál es la parte real de z?`,
+      opciones, correctIndex, tag:'Identificación',
+      pasos:[`El número complejo tiene la forma a + bi, donde <b>a</b> es la parte real y <b>b</b> la parte imaginaria.`,
+             `En z = ${z}, comparando con a + bi, se obtiene a = ${a}.`,
+             `Por lo tanto, la parte real de z es <b>${a}</b>.`]
+    };
+  }
+  if(tipo==='parteImag'){
+    const correcta = String(b);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>String(b + pick([-3,-2,-1,1,2,3])));
+    return {
+      enunciado:`Un estudiante anota el número complejo z = ${z} al analizar ${ctx.obj} en ${ctx.lugar}. ¿Cuál es el coeficiente de la parte imaginaria de z?`,
+      opciones, correctIndex, tag:'Identificación',
+      pasos:[`En la forma binómica a + bi, el número que acompaña a "i" es la parte imaginaria (coeficiente b).`,
+             `En z = ${z}, el coeficiente de i es ${b}.`,
+             `Por lo tanto, la parte imaginaria de z es <b>${b}</b>.`]
+    };
+  }
+  if(tipo==='clasificar'){
+    const casos = [
+      {txt:complexToStr(randNonZero(-8,8),0), resp:'Real puro (b = 0)'},
+      {txt:complexToStr(0,randNonZero(-8,8)), resp:'Imaginario puro (a = 0)'},
+      {txt:z, resp:'Complejo (a ≠ 0 y b ≠ 0)'}
+    ];
+    const caso = pick(casos);
+    const opciones0 = ['Real puro (b = 0)','Imaginario puro (a = 0)','Complejo (a ≠ 0 y b ≠ 0)','No es un número complejo'];
+    const correctIndex = opciones0.indexOf(caso.resp);
+    return {
+      enunciado:`Se tiene el número w = ${caso.txt}, registrado en ${ctx.lugar}. ¿Cómo se clasifica w?`,
+      opciones:opciones0, correctIndex, tag:'Clasificación',
+      pasos:[`Un número complejo a + bi es <b>real puro</b> si b = 0, <b>imaginario puro</b> si a = 0, y <b>complejo</b> si a ≠ 0 y b ≠ 0.`,
+             `En w = ${caso.txt}, se observa que corresponde al caso: ${caso.resp}.`]
+    };
+  }
+  // cuadrante
+  const cuad = (a>0&&b>0)?'I':(a<0&&b>0)?'II':(a<0&&b<0)?'III':'IV';
+  const opciones0 = shuffle(['I','II','III','IV']);
+  const correctIndex = opciones0.indexOf(cuad);
+  return {
+    enunciado:`Al representar z = ${z} en el plano de Argand (eje horizontal: parte real, eje vertical: parte imaginaria), ¿en qué cuadrante se ubica el punto (${a}, ${b})?`,
+    opciones:opciones0.map(c=>'Cuadrante '+c), correctIndex, tag:'Plano de Argand',
+    pasos:[`En el plano de Argand, el eje horizontal representa la parte real y el eje vertical la parte imaginaria.`,
+           `El punto (${a}, ${b}) tiene signo ${a>=0?'positivo':'negativo'} en el eje real y signo ${b>=0?'positivo':'negativo'} en el eje imaginario.`,
+           `Eso corresponde al <b>cuadrante ${cuad}</b>.`]
+  };
+}
+
+/* ---- NIVEL 2: suma y resta ---- */
+function genNivel2(){
+  const op = pick(['suma','resta']);
+  const {a:a1,b:b1} = randComplex(2);
+  const {a:a2,b:b2} = randComplex(2);
+  const ctx = pick(CONTEXTOS);
+  const z1 = complexToStr(a1,b1), z2 = complexToStr(a2,b2);
+
+  if(op==='suma'){
+    const ra = a1+a2, rb = b1+b2;
+    const correcta = complexToStr(ra,rb);
+    const errs = ERRORES.suma;
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+      const tipo = pick([0,1,2]);
+      if(tipo===0) return complexToStr(ra, b1-b2); // error de signo
+      if(tipo===1) return complexToStr(ra+rb, 0); // mezcla partes
+      return complexToStr(ra+pick([-1,1]), rb+pick([-1,1])); // aritmético
+    });
+    return {
+      enunciado:`En ${ctx.lugar} se registran ${ctx.obj}: z₁ = ${z1} y z₂ = ${z2}. Calcula z₁ + z₂.`,
+      opciones, correctIndex, tag:'Suma de complejos',
+      pasos:[`Para sumar números complejos se suman las partes reales entre sí y las partes imaginarias entre sí.`,
+             `Parte real: ${a1} ${fmtSigned(a2)} = ${ra}.`,
+             `Parte imaginaria: ${b1} ${fmtSigned(b2)} = ${rb}.`,
+             `Entonces z₁ + z₂ = <b>${correcta}</b>.`],
+      _err: errs
+    };
+  } else {
+    const ra = a1-a2, rb = b1-b2;
+    const correcta = complexToStr(ra,rb);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+      const tipo = pick([0,1,2]);
+      if(tipo===0) return complexToStr(a1+a2, b1+b2); // no distribuye el signo
+      if(tipo===1) return complexToStr(ra, b1+b2);
+      return complexToStr(ra+pick([-1,1]), rb+pick([-1,1]));
+    });
+    return {
+      enunciado:`Dos mediciones en ${ctx.lugar} son z₁ = ${z1} y z₂ = ${z2}. Calcula z₁ − z₂.`,
+      opciones, correctIndex, tag:'Resta de complejos',
+      pasos:[`Para restar, se resta la parte real de z₂ a la de z₁, y la parte imaginaria de z₂ a la de z₁ (distribuyendo el signo negativo).`,
+             `Parte real: ${a1} − (${a2}) = ${ra}.`,
+             `Parte imaginaria: ${b1} − (${b2}) = ${rb}.`,
+             `Entonces z₁ − z₂ = <b>${correcta}</b>.`]
+    };
+  }
+}
+
+/* ---- NIVEL 3: multiplicación (y planteamiento simple) ---- */
+function genNivel3(){
+  const {a:a1,b:b1} = randComplex(3);
+  const {a:a2,b:b2} = randComplex(3);
+  const ctx = pick(CONTEXTOS);
+  const z1 = complexToStr(a1,b1), z2 = complexToStr(a2,b2);
+  const ra = a1*a2 - b1*b2;
+  const rb = a1*b2 + a2*b1;
+  const correcta = complexToStr(ra,rb);
+  const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+    const tipo = pick([0,1,2]);
+    if(tipo===0) return complexToStr(a1*a2+b1*b2, rb); // olvida que i²=-1 (suma en vez de restar)
+    if(tipo===1) return complexToStr(ra, a1*b2 - a2*b1); // error de signo al distribuir
+    return complexToStr(ra + pick([-2,-1,1,2]), rb + pick([-2,-1,1,2])); // error aritmético
+  });
+  return {
+    enunciado:`Al analizar ${ctx.obj} en ${ctx.lugar}, se tienen z₁ = ${z1} y z₂ = ${z2}. Calcula z₁ × z₂.`,
+    opciones, correctIndex, tag:'Multiplicación de complejos',
+    pasos:[`Se aplica la propiedad distributiva: (a + bi)(c + di) = ac + adi + bci + bdi².`,
+           `Como i² = −1, el término bdi² se convierte en −bd.`,
+           `Parte real: (${a1})(${a2}) − (${b1})(${b2}) = ${a1*a2} − (${b1*b2}) = ${ra}.`,
+           `Parte imaginaria: (${a1})(${b2}) + (${a2})(${b1}) = ${a1*b2} + ${a2*b1} = ${rb}.`,
+           `Entonces z₁ × z₂ = <b>${correcta}</b>.`]
+  };
+}
+
+/* ---- NIVEL 4: conjugado, módulo, división ---- */
+function genNivel4(){
+  const tipo = pick(['conjugado','modulo','division']);
+  const ctx = pick(CONTEXTOS);
+
+  if(tipo==='conjugado'){
+    const {a,b} = randComplex(4);
+    const z = complexToStr(a,b);
+    const correcta = complexToStr(a,-b);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+      const t = pick([0,1]);
+      if(t===0) return complexToStr(-a,b); // cambia el signo equivocado
+      return z; // no cambia ningún signo
+    });
+    return {
+      enunciado:`En ${ctx.lugar} se define z = ${z}. Halla el conjugado de z (z̄).`,
+      opciones, correctIndex, tag:'Conjugado',
+      pasos:[`El conjugado de a + bi es a − bi: se cambia únicamente el signo de la parte imaginaria.`,
+             `Para z = ${z}, el conjugado es <b>${correcta}</b>.`]
+    };
+  }
+  if(tipo==='modulo'){
+    // Se eligen a,b tales que a²+b² sea cuadrado perfecto (ternas tipo 3-4-5)
+    const ternas = [[3,4,5],[6,8,10],[5,12,13],[8,6,10],[4,3,5],[12,5,13],[9,12,15],[7,24,25]];
+    const t = pick(ternas);
+    const signoA = pick([1,-1]), signoB = pick([1,-1]);
+    const a = t[0]*signoA, b = t[1]*signoB, mod = t[2];
+    const z = complexToStr(a,b);
+    const correcta = String(mod);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+      const type = pick([0,1,2]);
+      if(type===0) return String(a*a+b*b); // olvida la raíz
+      if(type===1) return String(Math.abs(a)+Math.abs(b)); // suma sin elevar al cuadrado
+      return String(mod + pick([-2,-1,1,2]));
+    });
+    return {
+      enunciado:`Se mide z = ${z} en ${ctx.lugar}. Calcula el módulo |z|.`,
+      opciones, correctIndex, tag:'Módulo',
+      pasos:[`El módulo de a + bi se calcula como |z| = √(a² + b²).`,
+             `|z| = √((${a})² + (${b})²) = √(${a*a} + ${b*b}) = √${a*a+b*b}.`,
+             `|z| = <b>${mod}</b>.`]
+    };
+  }
+  // division
+  const {a:a1,b:b1} = randComplex(4);
+  let a2,b2;
+  do{ a2=randInt(-5,5); b2=randNonZero(-5,5); }while(a2*a2+b2*b2===0);
+  const den = a2*a2+b2*b2;
+  // Ajuste para que el resultado sea razonable (no forzamos enteros exactos, se redondea a 2 decimales)
+  const numA = a1*a2 + b1*b2;
+  const numB = b1*a2 - a1*b2;
+  const ra = Math.round((numA/den)*100)/100;
+  const rb = Math.round((numB/den)*100)/100;
+  const z1 = complexToStr(a1,b1), z2 = complexToStr(a2,b2);
+  const correcta = complexToStr(ra,rb);
+  const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+    const type = pick([0,1,2]);
+    if(type===0) return complexToStr(Math.round((a1*a2 - b1*b2)/den*100)/100, Math.round((a1*b2+a2*b1)/den*100)/100); // no usa conjugado, resta directo
+    if(type===1) return complexToStr(ra, -rb); // error de signo al racionalizar
+    return complexToStr(Math.round((numA/den+0.5)*100)/100, rb);
+  });
+  return {
+    enunciado:`En ${ctx.lugar} se necesita dividir dos complejos: z₁ = ${z1} entre z₂ = ${z2}. Calcula z₁ ÷ z₂ (forma binómica, resultado aproximado a 2 decimales si es necesario).`,
+    opciones, correctIndex, tag:'División de complejos',
+    pasos:[`Para dividir, se multiplica numerador y denominador por el conjugado del denominador: z̄₂ = ${complexToStr(a2,-b2)}.`,
+           `Denominador: (${a2})² + (${b2})² = ${den}.`,
+           `Numerador: (${z1})(${complexToStr(a2,-b2)}) = ${complexToStr(numA,numB)}.`,
+           `z₁ ÷ z₂ = ${complexToStr(numA,numB)} / ${den} = <b>${correcta}</b>.`]
+  };
+}
+
+/* ---- NIVEL 5: problemas multi-paso ---- */
+function genNivel5(){
+  const tipo = pick(['distancia','impedanciaTotal','multipasoOp']);
+  const ctx = pick(CONTEXTOS);
+
+  if(tipo==='distancia'){
+    const ternas = [[3,4,5],[6,8,10],[5,12,13],[8,6,10],[9,12,15]];
+    const t = pick(ternas);
+    const {a:a1,b:b1} = randComplex(3);
+    const a2 = a1 + t[0]*pick([1,-1]);
+    const b2 = b1 + t[1]*pick([1,-1]);
+    const dist = t[2];
+    const z1 = complexToStr(a1,b1), z2 = complexToStr(a2,b2);
+    const correcta = String(dist);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+      const type = pick([0,1]);
+      if(type===0) return String((a2-a1)*(a2-a1)+(b2-b1)*(b2-b1));
+      return String(dist + pick([-2,-1,1,2]));
+    });
+    return {
+      enunciado:`Dos puntos de ${ctx.lugar} se registran como z₁ = ${z1} y z₂ = ${z2} en el plano complejo. La distancia entre ellos equivale al módulo de su diferencia. Calcula esa distancia |z₂ − z₁|.`,
+      opciones, correctIndex, tag:'Problema multi-paso',
+      pasos:[`Primero se calcula la diferencia: z₂ − z₁ = (${a2-a1}) + (${b2-b1})i.`,
+             `Luego se halla el módulo: |z₂ − z₁| = √((${a2-a1})² + (${b2-b1})²) = √${(a2-a1)*(a2-a1)+(b2-b1)*(b2-b1)}.`,
+             `Distancia = <b>${dist}</b> unidades.`]
+    };
+  }
+  if(tipo==='impedanciaTotal'){
+    const {a:a1,b:b1} = randComplex(3);
+    const {a:a2,b:b2} = randComplex(3);
+    const ra = a1+a2, rb = b1+b2;
+    const correcta = complexToStr(ra,rb);
+    const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+      const type = pick([0,1]);
+      if(type===0) return complexToStr(ra, b1-b2);
+      return complexToStr(ra+pick([-2,-1,1,2]), rb+pick([-2,-1,1,2]));
+    });
+    return {
+      enunciado:`En un circuito armado en ${ctx.lugar}, dos impedancias en serie son Z₁ = ${complexToStr(a1,b1)} ohmios y Z₂ = ${complexToStr(a2,b2)} ohmios. La impedancia total es Zₜ = Z₁ + Z₂. Calcula Zₜ.`,
+      opciones, correctIndex, tag:'Problema multi-paso',
+      pasos:[`En un circuito en serie, las impedancias complejas se suman.`,
+             `Parte real: ${a1} ${fmtSigned(a2)} = ${ra}.`,
+             `Parte imaginaria: ${b1} ${fmtSigned(b2)} = ${rb}.`,
+             `Zₜ = <b>${correcta}</b> ohmios.`]
+    };
+  }
+  // multipasoOp: (z1+z2)*z3 sencillo con enteros pequeños
+  const {a:a1,b:b1} = randComplex(4);
+  const {a:a2,b:b2} = randComplex(4);
+  let a3=randInt(-3,3), b3=randNonZero(-3,3);
+  const sa=a1+a2, sb=b1+b2;
+  const ra = sa*a3 - sb*b3;
+  const rb = sa*b3 + a3*sb;
+  const correcta = complexToStr(ra,rb);
+  const {opciones, correctIndex} = construirOpciones(correcta, ()=>{
+    const type = pick([0,1,2]);
+    if(type===0) return complexToStr(sa*a3+sb*b3, rb); // olvida i²=-1
+    if(type===1) return complexToStr(ra, sa*b3 - a3*sb);
+    return complexToStr(ra+pick([-2,-1,1,2]), rb+pick([-2,-1,1,2]));
+  });
+  return {
+    enunciado:`Un estudiante de noveno en ${ctx.lugar} registra tres complejos: z₁ = ${complexToStr(a1,b1)}, z₂ = ${complexToStr(a2,b2)} y z₃ = ${complexToStr(a3,b3)}. Calcula (z₁ + z₂) × z₃.`,
+    opciones, correctIndex, tag:'Problema multi-paso',
+    pasos:[`Primero se suma: z₁ + z₂ = ${complexToStr(sa,sb)}.`,
+           `Luego se multiplica por z₃ = ${complexToStr(a3,b3)}, recordando que i² = −1.`,
+           `Parte real: (${sa})(${a3}) − (${sb})(${b3}) = ${ra}.`,
+           `Parte imaginaria: (${sa})(${b3}) + (${a3})(${sb}) = ${rb}.`,
+           `Resultado = <b>${correcta}</b>.`]
+  };
+}
+
+const GENERADORES = {1:genNivel1, 2:genNivel2, 3:genNivel3, 4:genNivel4, 5:genNivel5};
+
+/* Genera una pregunta de un nivel, evitando duplicados dentro de una misma sesión/lista */
+function generarPregunta(nivel, historial){
+  historial = historial || [];
+  let intento = 0, q;
+  do{
+    q = GENERADORES[nivel]();
+    intento++;
+  }while(historial.includes(q.enunciado) && intento<15);
+  historial.push(q.enunciado);
+  return q;
+}
+
+function generarSetProgresivo(cantidad){
+  // Distribuye niveles de forma progresiva y, si son más de 5, en Mixto reparte proporcionalmente
+  const niveles = [];
+  if(cantidad<=5){
+    for(let i=0;i<cantidad;i++) niveles.push(Math.min(5, Math.ceil(((i+1)/cantidad)*5)));
+  } else {
+    for(let i=0;i<cantidad;i++) niveles.push(1+(i%5));
+    niveles.sort((a,b)=>a-b);
+  }
+  const historial = [];
+  return niveles.map(n=>{
+    const q = generarPregunta(n, historial);
+    q.nivel = n;
+    return q;
+  });
+}
+
+function generarSetPorNivelFijo(nivel, cantidad){
+  const historial = [];
+  const out=[];
+  for(let i=0;i<cantidad;i++){
+    const q = generarPregunta(nivel, historial);
+    q.nivel = nivel;
+    out.push(q);
+  }
+  return out;
+}
+
+function generarSetMixto(cantidad){
+  const out=[];
+  const historial=[];
+  for(let i=0;i<cantidad;i++){
+    const n = 1+(i%5);
+    const q = generarPregunta(n, historial);
+    q.nivel = n;
+    out.push(q);
+  }
+  return out.sort((a,b)=>a.nivel-b.nivel);
+}
+
+/* ============================= 4. ESTADO Y NAVEGACIÓN ============================= */
+const state = {
+  view:'inicio',
+  docenteAutenticado:false,
+  siee:{min:1,max:5,aprobatoria:3},
+  practicaEstudiante:null,
+  examenActual:null, // formulario importado por el estudiante
+  examenRespuestas:[],
+  aprenderMini:null
+};
+
+const PASSWORD_DOCENTE = 'TEA';
+
+function setActiveNav(view){
+  document.querySelectorAll('nav.bottomnav button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.view===view);
+  });
+}
+
+function goTo(view){
+  state.view = view;
+  setActiveNav(view);
+  render();
+  window.scrollTo({top:0,behavior:'auto'});
+}
+
+document.querySelectorAll('nav.bottomnav button').forEach(b=>{
+  b.addEventListener('click', ()=> goTo(b.dataset.view));
+});
+
+/* ============================= 5. RENDER: INICIO ============================= */
+function viewInicio(){
+  return `
+  <div class="hero">
+    <h1>Números Complejos y sus Operaciones</h1>
+    <div class="tagline">Aprende, practica y domina los números complejos paso a paso</div>
+    <div class="badge-offline">100% OFFLINE</div>
+  </div>
+  <div class="grid2">
+    <div class="navcard" onclick="goTo('aprender')"><span class="ico">📚</span><div class="lbl">Aprender</div><div class="desc">Teoría, ejemplos y práctica guiada</div></div>
+    <div class="navcard" onclick="goTo('resueltos')"><span class="ico">🧮</span><div class="lbl">Resueltos</div><div class="desc">Ejercicios paso a paso</div></div>
+    <div class="navcard" onclick="goTo('estudiante')"><span class="ico">👨‍🎓</span><div class="lbl">Estudiante</div><div class="desc">Practicar o presentar examen</div></div>
+    <div class="navcard" onclick="goTo('docente')"><span class="ico">👨‍🏫</span><div class="lbl">Docente</div><div class="desc">Crear y gestionar evaluaciones</div></div>
+  </div>
+  <div class="card">
+    <h3>¿Qué encontrarás aquí?</h3>
+    <p><b>📚 Aprender:</b> una explicación completa del tema, con ejemplos resueltos ambientados en Fundación, Magdalena, y una mini práctica de retroalimentación inmediata.</p>
+    <p><b>🧮 Resueltos:</b> ejercicios generados aleatoriamente, resueltos paso a paso, sin omitir procedimientos.</p>
+    <p><b>👨‍🎓 Estudiante:</b> practica libremente o presenta una evaluación oficial enviada por tu docente.</p>
+    <p><b>👨‍🏫 Docente:</b> crea evaluaciones, expórtalas, recibe e importa resultados y genera reportes en PDF.</p>
+  </div>`;
+}
+
+/* ============================= 6. RENDER: APRENDER ============================= */
+function viewAprender(){
+  if(!state.aprenderMini) state.aprenderMini = generarSetProgresivo(3);
+  const mini = state.aprenderMini;
+
+  return `
+  <h1>📚 Números Complejos y sus Operaciones</h1>
+  <p style="color:var(--muted);font-size:.85rem;">Grado Noveno · Fundación, Magdalena</p>
+
+  <div class="section-title"><span class="num">1</span><h3>Una situación cotidiana en Fundación</h3></div>
+  <div class="card">
+    <p>En la feria de ciencias del I.E.D. John F. Kennedy, un grupo de estudiantes de noveno arma un pequeño circuito eléctrico para su proyecto. Al medir con el multímetro, notan que algunos valores no se pueden expresar solo con números "normales": aparecen combinados con una unidad especial que representa la parte que se opone al paso de la corriente en cierta dirección. Su profesor les explica que, para trabajar con esos valores de forma ordenada, existen los <b>números complejos</b>: números que combinan una parte real (la que ya conocen) con una parte imaginaria (la nueva).</p>
+  </div>
+
+  <div class="section-title"><span class="num">2</span><h3>Conceptos previos necesarios</h3></div>
+  <div class="card">
+    <p>Antes de avanzar, recordemos:</p>
+    <ul style="margin:0 0 8px 18px;padding:0;">
+      <li>Un <b>número real</b> es cualquier número que ya conoces: enteros, decimales, fracciones (3, −5, 2.5, ½).</li>
+      <li>La <b>raíz cuadrada</b> de un número negativo, como √−1, no existe dentro de los números reales.</li>
+      <li>Un <b>plano cartesiano</b> tiene un eje horizontal y uno vertical, y permite ubicar puntos con parejas ordenadas.</li>
+    </ul>
+  </div>
+
+  <div class="section-title"><span class="num">3</span><h3>Lenguaje técnico: la unidad imaginaria</h3></div>
+  <div class="card">
+    <p>Para poder trabajar con raíces de números negativos, los matemáticos definieron una nueva unidad, llamada <b>unidad imaginaria</b>, representada con la letra <b>i</b>, tal que:</p>
+    <div class="formula">i = √−1</div>
+    <p>De esta definición se obtiene una propiedad clave que usaremos en casi todas las operaciones:</p>
+    <div class="formula">i<sup>2</sup> = −1</div>
+    <p>Con esta unidad, un <b>número complejo</b> es cualquier número que se puede escribir combinando una parte real y un múltiplo de i.</p>
+  </div>
+
+  <div class="section-title"><span class="num">4</span><h3>Formalización: forma binómica</h3></div>
+  <div class="card">
+    <p>Todo número complejo z se escribe en su <b>forma binómica</b> como:</p>
+    <div class="formula">z = a + bi</div>
+    <p>donde <b>a</b> es la <b>parte real</b> de z y <b>b</b> es el coeficiente de la <b>parte imaginaria</b> de z. Si b = 0, el número es real puro; si a = 0, es imaginario puro.</p>
+    <p>Los complejos se ubican en el <b>plano de Argand</b>: el eje horizontal representa la parte real y el eje vertical la parte imaginaria.</p>
+    <div class="svgbox">${svgPlanoArgand(3,2)}</div>
+    <h4>Operaciones básicas</h4>
+    <div class="formula">(a + bi) + (c + di) = (a + c) + (b + d)i</div>
+    <div class="formula">(a + bi) − (c + di) = (a − c) + (b − d)i</div>
+    <div class="formula">(a + bi)(c + di) = (ac − bd) + (ad + bc)i</div>
+    <table class="parchment">
+      <tr><th>Concepto</th><th>Fórmula</th></tr>
+      <tr><td>Conjugado de z = a + bi</td><td>z̄ = a − bi</td></tr>
+      <tr><td>Módulo de z</td><td>|z| = √(a² + b²)</td></tr>
+      <tr><td>División z₁ ÷ z₂</td><td>se multiplica por el conjugado de z₂</td></tr>
+    </table>
+  </div>
+
+  <div class="section-title"><span class="num">5</span><h3>Simulador: plano de Argand</h3></div>
+  <div class="card">
+    <p>Mueve los controles para ver cómo cambia la posición de z = a + bi en el plano.</p>
+    <div class="slider-row"><label style="margin:0;min-width:20px;">a</label><input type="range" id="simA" min="-8" max="8" value="3" oninput="actualizarSimulador()"><span class="val" id="simAval">3</span></div>
+    <div class="slider-row"><label style="margin:0;min-width:20px;">b</label><input type="range" id="simB" min="-8" max="8" value="2" oninput="actualizarSimulador()"><span class="val" id="simBval">2</span></div>
+    <div class="svgbox" id="simuladorBox">${svgPlanoArgand(3,2)}</div>
+    <p style="text-align:center;font-family:var(--serif);font-size:1.05rem;" id="simuladorTexto">z = 3 + 2i &nbsp;·&nbsp; |z| = ${Math.round(Math.sqrt(13)*100)/100}</p>
+  </div>
+
+  <div class="section-title"><span class="num">6</span><h3>Tres ejemplos resueltos (dificultad progresiva)</h3></div>
+  <div class="card">
+    <span class="tag">Ejemplo 1 · Básico</span>
+    <p>En el laboratorio de física del colegio, un estudiante registra z = 5 − 3i. Identifica su parte real, su parte imaginaria y el cuadrante donde se ubica en el plano de Argand.</p>
+    <div class="pasos">
+      <p><b>Parte real:</b> comparando con a + bi, se tiene a = 5.</p>
+      <p><b>Parte imaginaria:</b> el coeficiente de i es b = −3.</p>
+      <p><b>Cuadrante:</b> el punto (5, −3) tiene primera coordenada positiva y segunda negativa, por lo tanto está en el <b>cuadrante IV</b>.</p>
+    </div>
+  </div>
+  <div class="card">
+    <span class="tag gold">Ejemplo 2 · Intermedio</span>
+    <p>Dos impedancias medidas en el taller de electrónica del I.E.D. John F. Kennedy son Z₁ = 4 + 2i y Z₂ = −1 + 5i. Calcula Z₁ + Z₂ y Z₁ − Z₂.</p>
+    <div class="pasos">
+      <p><b>Suma:</b> parte real 4 + (−1) = 3; parte imaginaria 2 + 5 = 7. Entonces Z₁ + Z₂ = 3 + 7i.</p>
+      <p><b>Resta:</b> parte real 4 − (−1) = 5; parte imaginaria 2 − 5 = −3. Entonces Z₁ − Z₂ = 5 − 3i.</p>
+    </div>
+  </div>
+  <div class="card">
+    <span class="tag" style="background:var(--ink);">Ejemplo 3 · Avanzado</span>
+    <p>En la antena de telecomunicaciones del municipio se combinan dos señales: z₁ = 2 + 3i y z₂ = 1 − 4i. Calcula z₁ × z₂ y el módulo del resultado.</p>
+    <div class="pasos">
+      <p><b>Multiplicación:</b> (2 + 3i)(1 − 4i) = (2)(1) + (2)(−4i) + (3i)(1) + (3i)(−4i)</p>
+      <p>= 2 − 8i + 3i − 12i² = 2 − 5i − 12(−1) = 2 − 5i + 12 = 14 − 5i.</p>
+      <p><b>Módulo:</b> |14 − 5i| = √(14² + (−5)²) = √(196 + 25) = √221 ≈ 14.87.</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="num">7</span><h3>Mini práctica</h3></div>
+  <div class="card">
+    <p>Responde estas 3 preguntas (suben de nivel progresivamente). Al responder verás el procedimiento completo.</p>
+    <button class="btn gold block" onclick="regenerarMiniPractica()">🔄 Generar preguntas nuevas</button>
+    <div id="miniPracticaBox">${renderMiniPractica(mini)}</div>
+  </div>`;
+}
+
+function svgPlanoArgand(a,b){
+  const cx=110, cy=90, scale=9;
+  const px = cx + a*scale, py = cy - b*scale;
+  return `<svg viewBox="0 0 220 180" width="220" height="180" xmlns="http://www.w3.org/2000/svg">
+    <line x1="10" y1="${cy}" x2="210" y2="${cy}" stroke="#5B6472" stroke-width="1"/>
+    <line x1="${cx}" y1="10" x2="${cx}" y2="170" stroke="#5B6472" stroke-width="1"/>
+    <text x="200" y="${cy-4}" font-size="9" fill="#5B6472">Re</text>
+    <text x="${cx+4}" y="16" font-size="9" fill="#5B6472">Im</text>
+    <line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#C9A227" stroke-width="2"/>
+    <circle cx="${px}" cy="${py}" r="4.5" fill="#2F7A6B"/>
+    <text x="${px+7}" y="${py-4}" font-size="10" fill="#16233F">(${a}, ${b})</text>
+  </svg>`;
+}
+
+function actualizarSimulador(){
+  const a = parseInt(document.getElementById('simA').value,10);
+  const b = parseInt(document.getElementById('simB').value,10);
+  document.getElementById('simAval').textContent = a;
+  document.getElementById('simBval').textContent = b;
+  document.getElementById('simuladorBox').innerHTML = svgPlanoArgand(a,b);
+  const mod = Math.round(Math.sqrt(a*a+b*b)*100)/100;
+  document.getElementById('simuladorTexto').textContent = `z = ${complexToStr(a,b)} · |z| = ${mod}`;
+}
+
+function renderMiniPractica(mini){
+  return mini.map((q,i)=>`
+    <div class="card" style="margin-top:12px;">
+      <span class="tag">Nivel ${q.nivel} · ${nivelNombre(q.nivel)}</span>
+      <p>${q.enunciado}</p>
+      <div class="opciones" id="miniOpts-${i}">
+        ${q.opciones.map((op,j)=>`<button class="opcion-btn" onclick="responderMini(${i},${j})">${op}</button>`).join('')}
+      </div>
+      <div id="miniFeedback-${i}"></div>
+    </div>
+  `).join('');
+}
+
+function responderMini(i,j){
+  const q = state.aprenderMini[i];
+  const box = document.getElementById('miniOpts-'+i);
+  const btns = box.querySelectorAll('.opcion-btn');
+  btns.forEach((b,k)=>{
+    b.disabled = true;
+    if(k===q.correctIndex) b.classList.add('correcta');
+    else if(k===j) b.classList.add('incorrecta');
+  });
+  const fb = document.getElementById('miniFeedback-'+i);
+  fb.innerHTML = `<div class="pasos" style="margin-top:10px;">
+      <p><b>${j===q.correctIndex?'✅ ¡Correcto!':'❌ No era esa opción.'}</b></p>
+      ${q.pasos.map(p=>`<p>${p}</p>`).join('')}
+    </div>`;
+}
+
+function regenerarMiniPractica(){
+  state.aprenderMini = generarSetProgresivo(3);
+  document.getElementById('miniPracticaBox').innerHTML = renderMiniPractica(state.aprenderMini);
+  toast('Nuevas preguntas generadas');
+}
+
+/* ============================= 7. RENDER: RESUELTOS ============================= */
+let resueltosActuales = [];
+function viewResueltos(){
+  if(resueltosActuales.length===0) resueltosActuales = generarSetProgresivo(5);
+  return `
+  <h1>🧮 Ejercicios Resueltos</h1>
+  <p style="color:var(--muted);font-size:.85rem;">Números Complejos y sus Operaciones · dificultad progresiva</p>
+  <button class="btn gold block" onclick="generarNuevosResueltos()">🔄 Generar 5 ejercicios nuevos</button>
+  <div id="resueltosBox">${renderResueltos()}</div>`;
+}
+function renderResueltos(){
+  return resueltosActuales.map((q,i)=>`
+    <div class="card" style="margin-top:12px;">
+      <span class="tag gold">Nivel ${q.nivel} · ${nivelNombre(q.nivel)}</span> <span class="tag">${q.tag}</span>
+      <h4 style="margin-top:8px;">Ejercicio ${i+1}</h4>
+      <p><b>Enunciado:</b> ${q.enunciado}</p>
+      <div class="pasos">
+        <p><b>Procedimiento:</b></p>
+        ${q.pasos.map(p=>`<p>${p}</p>`).join('')}
+      </div>
+      <p style="margin-top:8px;"><b>Respuesta:</b> ${q.opciones[q.correctIndex]}</p>
+    </div>
+  `).join('');
+}
+function generarNuevosResueltos(){
+  resueltosActuales = generarSetProgresivo(5);
+  document.getElementById('resueltosBox').innerHTML = renderResueltos();
+  toast('Nuevos ejercicios generados');
+}
+
+/* ============================= 8. RENDER: ESTUDIANTE ============================= */
+function viewEstudiante(){
+  return `
+  <h1>👨‍🎓 Módulo Estudiante</h1>
+  <div class="grid2">
+    <div class="navcard" onclick="iniciarPracticaLibre()"><span class="ico">✏️</span><div class="lbl">Practicar</div><div class="desc">5 preguntas, retroalimentación inmediata</div></div>
+    <div class="navcard" onclick="mostrarImportarExamen()"><span class="ico">📝</span><div class="lbl">Presentar examen</div><div class="desc">Importar evaluación oficial</div></div>
+  </div>
+  <div id="estudianteBox"></div>`;
+}
+
+function iniciarPracticaLibre(){
+  state.practicaEstudiante = { preguntas: generarSetProgresivo(5), respuestas:[] };
+  document.getElementById('estudianteBox').innerHTML = renderPracticaLibre();
+}
+function renderPracticaLibre(){
+  const p = state.practicaEstudiante;
+  return `
+  <div class="card">
+    <h3>Práctica libre</h3>
+    ${p.preguntas.map((q,i)=>`
+      <div class="card" style="margin-top:10px;">
+        <span class="tag">Nivel ${q.nivel} · ${nivelNombre(q.nivel)}</span>
+        <p>${i+1}. ${q.enunciado}</p>
+        <div class="opciones" id="practOpts-${i}">
+          ${q.opciones.map((op,j)=>`<button class="opcion-btn" onclick="responderPractica(${i},${j})">${op}</button>`).join('')}
+        </div>
+        <div id="practFeedback-${i}"></div>
+      </div>
+    `).join('')}
+    <button class="btn block" style="margin-top:14px;" onclick="iniciarPracticaLibre()">🔄 Nueva práctica</button>
+  </div>`;
+}
+function responderPractica(i,j){
+  const q = state.practicaEstudiante.preguntas[i];
+  const box = document.getElementById('practOpts-'+i);
+  box.querySelectorAll('.opcion-btn').forEach((b,k)=>{
+    b.disabled = true;
+    if(k===q.correctIndex) b.classList.add('correcta');
+    else if(k===j) b.classList.add('incorrecta');
+  });
+  document.getElementById('practFeedback-'+i).innerHTML = `<div class="pasos" style="margin-top:10px;">
+    <p><b>${j===q.correctIndex?'✅ ¡Correcto!':'❌ No era esa opción.'}</b></p>
+    ${q.pasos.map(p=>`<p>${p}</p>`).join('')}
+  </div>`;
+}
+
+function mostrarImportarExamen(){
+  document.getElementById('estudianteBox').innerHTML = `
+  <div class="card">
+    <h3>Presentar examen oficial</h3>
+    <p>Selecciona el archivo <b>.formulario.json</b> que te entregó tu docente.</p>
+    <input type="file" id="fileFormulario" accept=".json">
+    <button class="btn block" onclick="cargarFormulario()">Cargar evaluación</button>
+    <div id="importFormError"></div>
+  </div>`;
+}
+function cargarFormulario(){
+  const input = document.getElementById('fileFormulario');
+  if(!input.files.length){ toast('Selecciona un archivo primero'); return; }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data.tipo || data.tipo!=='formulario-tpc'){ throw new Error('formato'); }
+      state.examenActual = data;
+      state.examenRespuestas = new Array(data.preguntas.length).fill(null);
+      document.getElementById('estudianteBox').innerHTML = renderDatosEstudianteExamen();
+    }catch(err){
+      document.getElementById('importFormError').innerHTML = `<div class="errbox">El archivo no es un formulario válido de TU PROFE CARLOS.</div>`;
+    }
+  };
+  reader.readAsText(input.files[0]);
+}
+function renderDatosEstudianteExamen(){
+  return `
+  <div class="card">
+    <h3>${state.examenActual.nombreEvaluacion} <span style="font-size:.75rem;color:var(--muted);">(${state.examenActual.id})</span></h3>
+    <label>Nombre completo</label>
+    <input type="text" id="estNombre">
+    <label>Grado</label>
+    <input type="text" id="estGrado" value="${state.examenActual.grado||''}">
+    <label>Curso</label>
+    <input type="text" id="estCurso">
+    <button class="btn block" onclick="iniciarExamenOficial()">Comenzar examen</button>
+  </div>`;
+}
+function iniciarExamenOficial(){
+  const nombre = document.getElementById('estNombre').value.trim();
+  if(!nombre){ toast('Ingresa tu nombre'); return; }
+  state.examenActual.estudiante = {
+    nombre, grado:document.getElementById('estGrado').value.trim(),
+    curso:document.getElementById('estCurso').value.trim()
+  };
+  document.getElementById('estudianteBox').innerHTML = renderExamenOficial();
+}
+function renderExamenOficial(){
+  const ex = state.examenActual;
+  const respondidas = state.examenRespuestas.filter(r=>r!==null).length;
+  const pct = Math.round((respondidas/ex.preguntas.length)*100);
+  return `
+  <div class="card">
+    <div class="progress-bar"><div style="width:${pct}%"></div></div>
+    <p style="font-size:.8rem;color:var(--muted);">${respondidas} de ${ex.preguntas.length} respondidas</p>
+    ${ex.preguntas.map((q,i)=>`
+      <div class="card" style="margin-top:10px;">
+        <p>${i+1}. ${q.enunciado}</p>
+        <div class="opciones">
+          ${q.opciones.map((op,j)=>`<button class="opcion-btn ${state.examenRespuestas[i]===j?'correcta':''}" onclick="marcarRespuestaExamen(${i},${j})">${op}</button>`).join('')}
+        </div>
+      </div>
+    `).join('')}
+    <button class="btn gold block" style="margin-top:14px;" onclick="enviarExamenOficial()">Finalizar y enviar examen</button>
+  </div>`;
+}
+function marcarRespuestaExamen(i,j){
+  state.examenRespuestas[i]=j;
+  document.getElementById('estudianteBox').innerHTML = renderExamenOficial();
+}
+function enviarExamenOficial(){
+  const faltan = state.examenRespuestas.filter(r=>r===null).length;
+  if(faltan>0){ if(!confirm(`Tienes ${faltan} pregunta(s) sin responder. ¿Deseas enviar de todas formas?`)) return; }
+  const ex = state.examenActual;
+  const resultado = {
+    tipo:'resultado-tpc',
+    formularioId: ex.id,
+    nombreEvaluacion: ex.nombreEvaluacion,
+    estudiante: ex.estudiante,
+    respuestas: state.examenRespuestas,
+    fecha: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(resultado,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${ex.id}_${ex.estudiante.nombre.replace(/\s+/g,'_')}.resultado.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  document.getElementById('estudianteBox').innerHTML = `
+  <div class="card" style="text-align:center;">
+    <h3>✅ Examen enviado correctamente</h3>
+    <p>Descarga tu archivo de resultado y envíalo a tu docente.</p>
+  </div>`;
+}
+
+/* ============================= 9. RENDER: DOCENTE ============================= */
+function viewDocente(){
+  if(!state.docenteAutenticado){
+    return `
+    <h1>👨‍🏫 Módulo Docente</h1>
+    <div class="card">
+      <label>Acceso restringido</label>
+      <input type="password" id="docPass" placeholder="••••">
+      <button class="btn block" onclick="intentarLoginDocente()">Ingresar</button>
+      <div id="docLoginError"></div>
+    </div>`;
+  }
+  return `
+  <h1>👨‍🏫 Panel Docente</h1>
+  <div class="grid2">
+    <div class="navcard" onclick="docenteVista('crear')"><span class="ico">➕</span><div class="lbl">Crear evaluación</div></div>
+    <div class="navcard" onclick="docenteVista('mis')"><span class="ico">📋</span><div class="lbl">Mis evaluaciones</div></div>
+    <div class="navcard" onclick="docenteVista('importar')"><span class="ico">📥</span><div class="lbl">Importar resultados</div></div>
+    <div class="navcard" onclick="docenteVista('resultados')"><span class="ico">📊</span><div class="lbl">Resultados recibidos</div></div>
+  </div>
+  <div class="card">
+    <h3>Configuración SIEE</h3>
+    <label>Nota mínima</label><input type="number" id="sieeMin" value="${state.siee.min}" step="0.1">
+    <label>Nota máxima</label><input type="number" id="sieeMax" value="${state.siee.max}" step="0.1">
+    <label>Nota aprobatoria</label><input type="number" id="sieeAprob" value="${state.siee.aprobatoria}" step="0.1">
+    <button class="btn outline block" onclick="guardarSIEE()">Guardar configuración</button>
+  </div>
+  <div class="card storagepanel" id="storagePanel">Cargando estado del almacenamiento…</div>
+  <div id="docenteSub"></div>`;
+}
+function intentarLoginDocente(){
+  const val = document.getElementById('docPass').value;
+  if(val===PASSWORD_DOCENTE){
+    state.docenteAutenticado = true;
+    render();
+    actualizarPanelStorage();
+  } else {
+    document.getElementById('docLoginError').innerHTML = `<div class="errbox">Contraseña incorrecta.</div>`;
+  }
+}
+async function actualizarPanelStorage(){
+  const panel = document.getElementById('storagePanel');
+  if(!panel) return;
+  const evals = await DB.getAll('evaluaciones');
+  const res = await DB.getAll('resultados');
+  panel.innerHTML = `<b>Almacenamiento activo:</b> ${DB.engineName()==='indexeddb'?'IndexedDB':'localStorage (modo compatibilidad)'}<br>
+  <b>Evaluaciones guardadas:</b> ${evals.length} · <b>Resultados guardados:</b> ${res.length}`;
+}
+function guardarSIEE(){
+  state.siee.min = parseFloat(document.getElementById('sieeMin').value)||1;
+  state.siee.max = parseFloat(document.getElementById('sieeMax').value)||5;
+  state.siee.aprobatoria = parseFloat(document.getElementById('sieeAprob').value)||3;
+  toast('Configuración SIEE guardada');
+}
+
+function docenteVista(v){
+  if(v==='crear') document.getElementById('docenteSub').innerHTML = renderCrearEvaluacion();
+  if(v==='mis') renderMisEvaluaciones();
+  if(v==='importar') document.getElementById('docenteSub').innerHTML = renderImportarResultados();
+  if(v==='resultados') renderResultadosRecibidos();
+}
+
+function renderCrearEvaluacion(){
+  return `
+  <div class="card">
+    <h3>Crear evaluación</h3>
+    <p style="font-size:.78rem;color:var(--muted);">Grado y asignatura son solo metadatos para el encabezado impreso; no filtran el banco de preguntas (tema fijo: Números Complejos y sus Operaciones).</p>
+    <label>Grado</label>
+    <select id="ceGrado">${['1°','2°','3°','4°','5°','6°','7°','8°','9°','10°','11°'].map(g=>`<option ${g==='9°'?'selected':''}>${g}</option>`).join('')}</select>
+    <label>Asignatura</label>
+    <select id="ceAsig"><option>Matemáticas</option><option>Álgebra</option><option>Cálculo</option><option>Estadística</option><option>Geometría</option></select>
+    <label>Nivel de dificultad</label>
+    <select id="ceNivel">
+      <option value="1">Básico</option><option value="2">Intermedio</option><option value="3">Avanzado</option>
+      <option value="4">Profesional</option><option value="5">Experto</option><option value="mixto" selected>Mixto (todos los niveles)</option>
+    </select>
+    <label>Número de preguntas</label>
+    <select id="ceCant"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+    <label>Nombre de la evaluación</label>
+    <input type="text" id="ceNombre" placeholder="Ej: Evaluación de Números Complejos - Periodo 3">
+    <button class="btn gold block" onclick="crearEvaluacion()">Generar evaluación</button>
+    <div id="crearEvalMsg"></div>
+  </div>`;
+}
+async function crearEvaluacion(){
+  const grado = document.getElementById('ceGrado').value;
+  const asignatura = document.getElementById('ceAsig').value;
+  const nivel = document.getElementById('ceNivel').value;
+  const cantidad = parseInt(document.getElementById('ceCant').value,10);
+  const nombreEvaluacion = document.getElementById('ceNombre').value.trim() || 'Evaluación de Números Complejos';
+
+  let preguntas;
+  if(nivel==='mixto') preguntas = generarSetMixto(cantidad);
+  else preguntas = generarSetPorNivelFijo(parseInt(nivel,10), cantidad);
+
+  const id = uid('FORM-');
+  const evaluacion = {
+    id, tipo:'formulario-tpc', nombreEvaluacion, grado, asignatura,
+    tema:'Números Complejos y sus Operaciones', nivelDificultad: nivel,
+    preguntas: preguntas.map(q=>({
+      enunciado:q.enunciado, opciones:q.opciones, tag:q.tag, nivel:q.nivel,
+      pasos:q.pasos, respuestaCodificada: encodeAnswer(q.correctIndex)
+    })),
+    fechaCreacion: new Date().toISOString()
+  };
+  await DB.put('evaluaciones', evaluacion);
+  document.getElementById('crearEvalMsg').innerHTML = `<div class="okbox">Evaluación <b>${id}</b> creada con ${cantidad} preguntas.</div>`;
+  actualizarPanelStorage();
+}
+
+async function renderMisEvaluaciones(){
+  const evals = await DB.getAll('evaluaciones');
+  const box = document.getElementById('docenteSub');
+  if(evals.length===0){ box.innerHTML = `<div class="card"><p>No hay evaluaciones creadas todavía.</p></div>`; return; }
+  box.innerHTML = `<div class="card"><h3>Mis evaluaciones</h3>
+    ${evals.map(ev=>`
+      <div class="evalrow">
+        <span class="fid">${ev.id}</span> — ${ev.nombreEvaluacion}<br>
+        <span style="font-size:.78rem;color:var(--muted);">Grado ${ev.grado} · ${ev.asignatura} · ${ev.preguntas.length} preguntas</span>
+        <div class="acts">
+          <button class="btn small" onclick="imprimirEvaluacion('${ev.id}')">🖨️ Ver/Imprimir PDF</button>
+          <button class="btn small outline" onclick="exportarFormulario('${ev.id}')">⬇️ Exportar .formulario.json</button>
+          <button class="btn small gold" onclick="duplicarEvaluacion('${ev.id}')">🧬 Duplicar</button>
+          <button class="btn small danger" onclick="eliminarEvaluacion('${ev.id}')">🗑️ Eliminar</button>
+        </div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+async function exportarFormulario(id){
+  const evals = await DB.getAll('evaluaciones');
+  const ev = evals.find(e=>e.id===id);
+  const exportable = {
+    tipo:'formulario-tpc', id:ev.id, nombreEvaluacion:ev.nombreEvaluacion, grado:ev.grado, asignatura:ev.asignatura,
+    tema:ev.tema,
+    preguntas: ev.preguntas.map(q=>({enunciado:q.enunciado, opciones:q.opciones, tag:q.tag, nivel:q.nivel, respuestaCodificada:q.respuestaCodificada, pasos:q.pasos}))
+  };
+  const blob = new Blob([JSON.stringify(exportable,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`${ev.id}.formulario.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  toast('Formulario exportado');
+}
+
+async function duplicarEvaluacion(id){
+  const evals = await DB.getAll('evaluaciones');
+  const ev = evals.find(e=>e.id===id);
+  let preguntas;
+  if(ev.nivelDificultad==='mixto') preguntas = generarSetMixto(ev.preguntas.length);
+  else preguntas = generarSetPorNivelFijo(parseInt(ev.nivelDificultad,10), ev.preguntas.length);
+  const newId = uid('FORM-');
+  const nueva = {
+    id:newId, tipo:'formulario-tpc', nombreEvaluacion: ev.nombreEvaluacion + ' (copia)',
+    grado:ev.grado, asignatura:ev.asignatura, tema:ev.tema, nivelDificultad:ev.nivelDificultad,
+    preguntas: preguntas.map(q=>({enunciado:q.enunciado, opciones:q.opciones, tag:q.tag, nivel:q.nivel, pasos:q.pasos, respuestaCodificada:encodeAnswer(q.correctIndex)})),
+    fechaCreacion:new Date().toISOString()
+  };
+  await DB.put('evaluaciones', nueva);
+  toast('Evaluación duplicada: '+newId);
+  renderMisEvaluaciones();
+  actualizarPanelStorage();
+}
+
+async function eliminarEvaluacion(id){
+  if(!confirm('¿Eliminar esta evaluación? Se borrarán también sus resultados asociados.')) return;
+  const resultados = await DB.getAll('resultados');
+  const asociados = resultados.filter(r=>r.formularioId===id);
+  for(const r of asociados) await DB.del('resultados', r.id);
+  await DB.del('evaluaciones', id);
+  toast('Evaluación eliminada');
+  renderMisEvaluaciones();
+  actualizarPanelStorage();
+}
+
+async function imprimirEvaluacion(id){
+  const evals = await DB.getAll('evaluaciones');
+  const ev = evals.find(e=>e.id===id);
+  const area = document.getElementById('printArea');
+  const letras = ['A','B','C','D'];
+  let html = `<div class="printq" style="font-family:sans-serif;font-size:13px;">`;
+  html += `Carlos Andrés Romero Mendivil — TU PROFE CARLOS<br>Asignatura: ${ev.asignatura} · Grado: ${ev.grado} · Tema: ${ev.tema}<br>Formulario: ${ev.nombreEvaluacion} (${ev.id})<br><br>
+  Nombre: _______________________________ &nbsp; Curso: _________ &nbsp; Fecha: _________<br><hr></div>`;
+  ev.preguntas.forEach((q,i)=>{
+    html += `<div class="printq"><b>${i+1}.</b> ${q.enunciado}<div class="printopts">`;
+    q.opciones.forEach((op,j)=> html += `<div>${letras[j]}. ${op}</div>`);
+    html += `</div></div>`;
+  });
+  html += `<div class="pagebreak"></div><div class="printq"><b>SOLUCIONARIO — ${ev.id}</b><br></div>`;
+  ev.preguntas.forEach((q,i)=>{
+    const correcto = decodeAnswer(q.respuestaCodificada);
+    html += `<div class="printq"><b>${i+1}.</b> ${q.enunciado}<br><b>Respuesta correcta:</b> ${letras[correcto]}. ${q.opciones[correcto]}<br>`;
+    (q.pasos||[]).forEach(p=> html += `${p.replace(/<[^>]*>/g,'')}<br>`);
+    html += `</div>`;
+  });
+  area.innerHTML = html;
+  window.print();
+}
+
+function renderImportarResultados(){
+  return `
+  <div class="card">
+    <h3>Importar resultados</h3>
+    <p>Selecciona el archivo <b>.resultado.json</b> enviado por el estudiante.</p>
+    <input type="file" id="fileResultado" accept=".json">
+    <button class="btn block" onclick="importarResultado()">Importar y calificar</button>
+    <div id="importResMsg"></div>
+  </div>`;
+}
+async function importarResultado(){
+  const input = document.getElementById('fileResultado');
+  if(!input.files.length){ toast('Selecciona un archivo primero'); return; }
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(data.tipo!=='resultado-tpc') throw new Error('formato');
+      const evals = await DB.getAll('evaluaciones');
+      const ev = evals.find(x=>x.id===data.formularioId);
+      if(!ev) throw new Error('sin-formulario');
+      let aciertos = 0;
+      ev.preguntas.forEach((q,i)=>{
+        const correcto = decodeAnswer(q.respuestaCodificada);
+        if(data.respuestas[i]===correcto) aciertos++;
+      });
+      const total = ev.preguntas.length;
+      const notaSugerida = Math.round((state.siee.min + (aciertos/total)*(state.siee.max-state.siee.min))*100)/100;
+      const resultado = {
+        id: uid('RES-'), formularioId: ev.id, nombreEvaluacion: ev.nombreEvaluacion,
+        estudiante: data.estudiante, aciertos, total, notaSugerida, notaFinal: notaSugerida,
+        fechaImportado: new Date().toISOString()
+      };
+      await DB.put('resultados', resultado);
+      document.getElementById('importResMsg').innerHTML = `<div class="okbox">Resultado importado: ${data.estudiante.nombre} — ${aciertos}/${total} aciertos — Nota sugerida: ${notaSugerida}</div>`;
+      actualizarPanelStorage();
+    }catch(err){
+      document.getElementById('importResMsg').innerHTML = `<div class="errbox">No se pudo importar: archivo inválido o el formulario correspondiente ya no existe.</div>`;
+    }
+  };
+  reader.readAsText(input.files[0]);
+}
+
+async function renderResultadosRecibidos(){
+  const resultados = await DB.getAll('resultados');
+  const box = document.getElementById('docenteSub');
+  if(resultados.length===0){ box.innerHTML = `<div class="card"><p>Aún no se han recibido resultados.</p></div>`; return; }
+  box.innerHTML = `<div class="card">
+    <h3>Resultados recibidos</h3>
+    ${resultados.map(r=>`
+      <div class="evalrow">
+        <b>${r.estudiante.nombre}</b> (${r.estudiante.grado||'-'} ${r.estudiante.curso||''})<br>
+        <span style="font-size:.85rem;">${r.nombreEvaluacion} — ${r.aciertos}/${r.total} aciertos</span><br>
+        <label style="margin-top:6px;">Nota final</label>
+        <input type="number" step="0.1" value="${r.notaFinal}" style="max-width:120px;" onchange="actualizarNota('${r.id}', this.value)">
+        <div class="acts"><button class="btn small" onclick="imprimirResultadoIndividual('${r.id}')">🖨️ PDF individual</button></div>
+      </div>
+    `).join('')}
+    <button class="btn gold block" style="margin-top:10px;" onclick="imprimirReporteGeneral()">🖨️ Reporte general del grupo (PDF)</button>
+  </div>`;
+}
+async function actualizarNota(id, val){
+  const resultados = await DB.getAll('resultados');
+  const r = resultados.find(x=>x.id===id);
+  r.notaFinal = parseFloat(val);
+  await DB.put('resultados', r);
+  toast('Nota actualizada');
+}
+async function imprimirResultadoIndividual(id){
+  const resultados = await DB.getAll('resultados');
+  const r = resultados.find(x=>x.id===id);
+  const area = document.getElementById('printArea');
+  area.innerHTML = `<div class="printq" style="font-family:sans-serif;font-size:13px;">
+    Carlos Andrés Romero Mendivil — TU PROFE CARLOS<br>Reporte individual de resultado<br><br>
+    Estudiante: ${r.estudiante.nombre}<br>Grado: ${r.estudiante.grado||'-'} · Curso: ${r.estudiante.curso||'-'}<br>
+    Evaluación: ${r.nombreEvaluacion} (${r.formularioId})<br>
+    Aciertos: ${r.aciertos} / ${r.total}<br>Nota sugerida (SIEE): ${r.notaSugerida}<br>Nota final: <b>${r.notaFinal}</b><br>
+    Fecha: ${new Date(r.fechaImportado).toLocaleDateString()}
+  </div>`;
+  window.print();
+}
+async function imprimirReporteGeneral(){
+  const resultados = await DB.getAll('resultados');
+  const area = document.getElementById('printArea');
+  let html = `<div class="printq" style="font-family:sans-serif;font-size:13px;">Carlos Andrés Romero Mendivil — TU PROFE CARLOS<br>Reporte general de resultados<br><br></div>`;
+  html += `<table style="width:100%;border-collapse:collapse;font-family:sans-serif;font-size:12px;">
+    <tr style="border-bottom:1px solid #000;"><th align="left">Estudiante</th><th align="left">Grado</th><th align="left">Evaluación</th><th align="left">Aciertos</th><th align="left">Nota</th></tr>
+    ${resultados.map(r=>`<tr style="border-bottom:1px solid #ccc;"><td>${r.estudiante.nombre}</td><td>${r.estudiante.grado||'-'}</td><td>${r.nombreEvaluacion}</td><td>${r.aciertos}/${r.total}</td><td>${r.notaFinal}</td></tr>`).join('')}
+  </table>`;
+  area.innerHTML = html;
+  window.print();
+}
+
+/* ============================= 10. RENDER PRINCIPAL ============================= */
+function render(){
+  const app = document.getElementById('app');
+  if(state.view==='inicio') app.innerHTML = viewInicio();
+  else if(state.view==='aprender') app.innerHTML = viewAprender();
+  else if(state.view==='resueltos') app.innerHTML = viewResueltos();
+  else if(state.view==='estudiante') app.innerHTML = viewEstudiante();
+  else if(state.view==='docente'){ app.innerHTML = viewDocente(); if(state.docenteAutenticado) actualizarPanelStorage(); }
+}
+
+/* ============================= 11. INICIALIZACIÓN ============================= */
+window.onload = async function(){
+  await DB.init();
+  setActiveNav('inicio');
+  render();
+};
+</script>
+</body>
+</html>
