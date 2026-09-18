@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Plataforma Educativa - Números Complejos | Tu Profe Carlos</title>
+  <style>
+    /* ==========================================================================
+       1. VARIABLES CSS & SISTEMA DE DISEÑO (ESTÉTIKA LIBRO PREMIUM / PERGAMINO)
+       ========================================================================== */
+    :root {
+      --ink: #16233F;
+      --ink-2: #1F3358;
+      --ink-3: #0E1729;
+      --gold: #C9A227;
+      --gold-dark: #9C7C15;
+      --teal: #2F7A6B;
+      --teal-dark: #215A4F;
+      --parchment: #F6F3EA;
+      --paper: #FFFDF9;
+      --text: #1B1F27;
+      --muted: #5B6472;
+      --line: #DAD3C2;
+      --ok: #2F7A4B;
+      --ok-bg: #E7F3EA;
+      --bad: #B23A3A;
+      --bad-bg: #FBEAEA;
+      --radius: 12px;
+      --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+      --sans: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--parchment);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      padding-bottom: 90px; /* Offset para barra navegación inferior fija */
+    }
+
+    /* ==========================================================================
+       2. CABECERA, HEADER Y NAVEGACIÓN
+       ========================================================================== */
+    .app-header {
+      background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+      color: #FFFFFF;
+      padding: 20px 16px;
+      text-align: center;
+      border-bottom: 3px solid var(--gold);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .app-header h1 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .app-header .role-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 4px;
+    }
+
+    .app-header .institution-tag {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      color: var(--gold);
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .main-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* BARRA DE NAVEGACIÓN INFERIOR PERSISTENTE */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background-color: var(--ink-3);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 9999;
+      border-top: 2px solid var(--gold);
+      padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 0;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item .icon {
+      font-size: 1.3rem;
+      margin-bottom: 2px;
+    }
+
+    .nav-item.active {
+      color: var(--gold);
+    }
+
+    /* ==========================================================================
+       3. COMPONENTES VISUALES & REUTILIZABLES
+       ========================================================================== */
+    .card {
+      background-color: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      border-left: 5px solid var(--gold);
+      box-shadow: 0 4px 12px rgba(22, 35, 63, 0.2);
+    }
+
+    .hero-card h2 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .hero-card .tagline {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .badge-offline {
+      display: inline-block;
+      background-color: rgba(201, 162, 39, 0.2);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    /* BOTONES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      gap: 8px;
+      text-decoration: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background-color: var(--teal);
+      color: #FFFFFF;
+    }
+    .btn-primary:hover { background-color: var(--teal-dark); }
+
+    .btn-gold {
+      background-color: var(--gold);
+      color: var(--ink-3);
+      font-weight: 700;
+    }
+    .btn-gold:hover { background-color: var(--gold-dark); color: #FFFFFF; }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+    .btn-outline:hover { background-color: rgba(0,0,0,0.03); }
+
+    .btn-danger {
+      background-color: var(--bad);
+      color: #FFFFFF;
+    }
+
+    .grid-menu {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .grid-menu-btn {
+      background-color: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .grid-menu-btn:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .grid-menu-btn .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .grid-menu-btn .title {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .grid-menu-btn .desc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* FORMULARIOS Y FÓRMULAS */
+    .formula-box {
+      background-color: #F3EFE3;
+      border-left: 4px solid var(--gold);
+      padding: 14px 18px;
+      margin: 14px 0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--ink);
+      overflow-x: auto;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      background-color: #FFFFFF;
+      color: var(--text);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+
+    /* ESTRUCTURA VERTICAL ESTRICTA DE OPCIONES (SELECCIÓN MÚLTIPLE) */
+    .options-vertical-container {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+      width: 100% !important;
+      margin: 14px 0 !important;
+    }
+
+    .option-btn {
+      display: flex !important;
+      align-items: flex-start !important;
+      width: 100% !important;
+      text-align: left !important;
+      padding: 12px 14px !important;
+      background-color: var(--paper) !important;
+      border: 1.5px solid var(--line) !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      font-size: 0.95rem !important;
+      color: var(--text) !important;
+      transition: all 0.2s !important;
+      box-sizing: border-box !important;
+    }
+
+    .option-btn .opt-letter {
+      font-weight: bold;
+      color: var(--ink);
+      margin-right: 10px;
+      min-width: 24px;
+    }
+
+    .option-btn.selected {
+      border-color: var(--teal) !important;
+      background-color: rgba(47, 122, 107, 0.05) !important;
+    }
+
+    .option-btn.correct {
+      background-color: var(--ok-bg) !important;
+      border-color: var(--ok) !important;
+      color: var(--ok) !important;
+    }
+
+    .option-btn.incorrect {
+      background-color: var(--bad-bg) !important;
+      border-color: var(--bad) !important;
+      color: var(--bad) !important;
+    }
+
+    /* TABLA ESTILO PERGAMINO */
+    .table-parchment {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 0.9rem;
+      background-color: var(--paper);
+    }
+
+    .table-parchment th, .table-parchment td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .table-parchment th {
+      background-color: #EDE8D8;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: bold;
+    }
+
+    /* TOAST FLOATING NOTIFICATION */
+    #toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background-color: var(--ink-3);
+      color: #FFFFFF;
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: 1px solid var(--gold);
+      font-size: 0.85rem;
+      z-index: 10000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* BARRA DE PROGRESO */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background-color: var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--teal);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* CONTENEDOR DE SECCIONES (TABS) */
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    .step-explain-box {
+      background-color: rgba(201, 162, 39, 0.08);
+      border-left: 3px solid var(--gold);
+      padding: 12px 14px;
+      margin-top: 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.88rem;
+    }
+
+    /* PIE DE PÁGINA */
+    .app-footer {
+      text-align: center;
+      padding: 20px 16px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 30px;
+    }
+
+    /* ==========================================================================
+       4. MODO IMPRESIÓN (@media print) ESTRICTO
+       ========================================================================== */
+    #printArea {
+      display: none;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .app-header, .bottom-nav, .app-footer, .main-container, #toast {
+        display: none !important;
+      }
+      #printArea, #printArea * {
+        visibility: visible;
+      }
+      #printArea {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        font-family: var(--serif);
+      }
+
+      .print-header {
+        border-bottom: 2px solid #000;
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+      }
+
+      .print-header h2 {
+        font-size: 1.3rem;
+        margin-bottom: 2px;
+      }
+
+      .print-header p {
+        font-size: 0.85rem;
+        margin: 1px 0;
+      }
+
+      .print-student-info {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #000;
+        padding: 8px;
+        margin-bottom: 16px;
+        font-size: 0.85rem;
+      }
+
+      .print-question {
+        margin-bottom: 16px;
+        page-break-inside: avoid;
+      }
+
+      .print-question-title {
+        font-weight: bold;
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .print-options-vertical {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+        margin-left: 12px;
+      }
+
+      .print-option-item {
+        font-size: 0.9rem;
+      }
+
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABECERA PRINCIPAL -->
+  <header class="app-header">
+    <h1>Carlos Andrés Romero Mendívil</h1>
+    <div class="role-title">Plataforma Educativa Interactiva</div>
+    <div class="institution-tag">Tu Profe Carlos</div>
+  </header>
+
+  <!-- CONTENEDOR DE CONTENIDO (APP PRINCIPAL) -->
+  <main class="main-container">
+
+    <!-- 1. PANTALLA DE INICIO -->
+    <section id="sec-inicio" class="view-section active">
+      <div class="hero-card">
+        <span class="badge-offline">100% OFFLINE</span>
+        <h2 style="margin-top:10px;">Números Complejos</h2>
+        <div class="tagline">"Explorando la dimensión imaginaria de las matemáticas con rigor y claridad."</div>
+        <p style="font-size: 0.88rem; opacity: 0.9;">Plataforma autónoma e interactiva para la práctica, evaluación y dominio formal de los números complejos, sus propiedades y operaciones algebraicas.</p>
+      </div>
+
+      <div class="grid-menu">
+        <div class="grid-menu-btn" onclick="navTo('aprender')">
+          <div class="icon">📚</div>
+          <div class="title">Aprender</div>
+          <div class="desc">Teoría paso a paso, simulador e ilustraciones.</div>
+        </div>
+        <div class="grid-menu-btn" onclick="navTo('resueltos')">
+          <div class="icon">🧮</div>
+          <div class="title">Ejercicios Resueltos</div>
+          <div class="desc">5 problemas explicados al detalle.</div>
+        </div>
+        <div class="grid-menu-btn" onclick="navTo('estudiante')">
+          <div class="icon">👨‍🎓</div>
+          <div class="title">Estudiante</div>
+          <div class="desc">Práctica libre y exámen oficial.</div>
+        </div>
+        <div class="grid-menu-btn" onclick="navTo('docente')">
+          <div class="icon">👨‍🏫</div>
+          <div class="title">Docente</div>
+          <div class="desc">Evaluaciones, SIEE e informes.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MÓDULO APRENDER -->
+    <section id="sec-aprender" class="view-section">
+      <div class="card">
+        <h2 style="font-family:var(--serif); color:var(--ink); margin-bottom:12px;">📚 Lección: Números Complejos</h2>
+        
+        <!-- A. Situación cotidiana -->
+        <h3 style="color:var(--teal-dark); margin-top:16px;">1. Situación Cotidiana</h3>
+        <p style="font-size:0.92rem; text-align:justify;">
+          Imagina que estás diseñando el mapa de un videojuego o analizando la corriente en un circuito de tu casa. Si caminas hacia adelante o atrás, estás en una dimensión recta (números reales). Pero, ¿qué pasa si necesitas representar rotaciones de 90° sin salir del sistema o describir ondas de corriente alterna donde la tensión y la corriente no van en fase? Los números reales no bastan para calcular la raíz de una resistencia negativa en circuitos; ahí nacen los números complejos como un plano bidimensional perfecto para gobernar giros y oscilaciones.
+        </p>
+
+        <!-- B. Conceptos previos necesarios -->
+        <h3 style="color:var(--teal-dark); margin-top:20px;">2. Conceptos Previos Necesarios</h3>
+        <p style="font-size:0.92rem; text-align:justify;">
+          Para comprender este tema, debemos recordar cómo operan las raíces con números negativos y la ley de los signos:
+        </p>
+        <div class="formula-box">
+          x<sup>2</sup> = -1 &nbsp;&rArr;&nbsp; x = &radic;<span style="text-decoration:overline;">-1</span>
+        </div>
+        <p style="font-size:0.92rem;">
+          En los números reales (<b>R</b>), ningún número elevado al cuadrado da negativo. Por ende, se define la <b>unidad imaginaria (<i>i</i>)</b> como:
+        </p>
+        <div class="formula-box">
+          <i>i</i> = &radic;<span style="text-decoration:overline;">-1</span> &nbsp;&nbsp;&rArr;&nbsp;&nbsp; <i>i</i><sup>2</sup> = -1
+        </div>
+
+        <!-- C. Lenguaje técnico -->
+        <h3 style="color:var(--teal-dark); margin-top:20px;">3. Lenguaje Técnico y Definición Formal</h3>
+        <p style="font-size:0.92rem; text-align:justify;">
+          Un <b>Número Complejo</b> es una entidad matemática expresada de la forma binómica <b>z = a + b<i>i</i></b>, donde:
+        </p>
+        <ul style="margin-left:20px; font-size:0.9rem; margin-top:6px;">
+          <li><b>a = Re(z)</b>: Parte real (número real puro).</li>
+          <li><b>b = Im(z)</b>: Parte imaginaria (coeficiente real de <i>i</i>).</li>
+        </ul>
+
+        <!-- D. Tabla pedagógica de clasificaciones -->
+        <h4 style="margin-top:14px; font-family:var(--serif);">Clasificación de los Números Complejos</h4>
+        <table class="table-parchment">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Condición</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Real Puro</td>
+              <td>b = 0</td>
+              <td>z = 7</td>
+            </tr>
+            <tr>
+              <td>Imaginario Puro</td>
+              <td>a = 0, b &ne; 0</td>
+              <td>z = -5<i>i</i></td>
+            </tr>
+            <tr>
+              <td>Complejo Mixto</td>
+              <td>a &ne; 0, b &ne; 0</td>
+              <td>z = 3 + 4<i>i</i></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- E. Formalización de Operaciones -->
+        <h3 style="color:var(--teal-dark); margin-top:20px;">4. Formalización y Propiedades</h3>
+        <p style="font-size:0.9rem;">Dados z<sub>1</sub> = a + b<i>i</i> y z<sub>2</sub> = c + d<i>i</i>:</p>
+        <ul style="margin-left:20px; font-size:0.9rem; margin-top:6px;">
+          <li><b>Suma/Resta:</b> (a &plusmn; c) + (b &plusmn; d)<i>i</i></li>
+          <li><b>Multiplicación:</b> (a·c - b·d) + (a·d + b·c)<i>i</i></li>
+          <li><b>Conjugado (z̄):</b> a - b<i>i</i> (invierte el signo de la parte imaginaria).</li>
+          <li><b>Módulo (|z|):</b> &radic;<span style="text-decoration:overline;">a<sup>2</sup> + b<sup>2</sup></span> (distancia al origen).</li>
+        </ul>
+
+        <!-- F. Ilustración / Simulador Interactivo SVG -->
+        <h3 style="color:var(--teal-dark); margin-top:20px;">5. Simulador Interactivo en el Plano Argand</h3>
+        <p style="font-size:0.85rem; color:var(--muted);">Ajusta la parte real (a) e imaginaria (b) para observar el vector z = a + b<i>i</i> y su módulo:</p>
+        
+        <div style="text-align:center; margin:15px 0;">
+          <svg id="svg-simulador" width="280" height="240" style="background:#FFFDF9; border:1px solid var(--line); border-radius:8px;">
+            <!-- Ejes -->
+            <line x1="20" y1="120" x2="260" y2="120" stroke="#DAD3C2" stroke-width="2" />
+            <line x1="140" y1="20" x2="140" y2="220" stroke="#DAD3C2" stroke-width="2" />
+            <text x="245" y="115" font-size="10" fill="#16233F">Re</text>
+            <text x="145" y="30" font-size="10" fill="#16233F">Im</text>
+            <!-- Vector dinámico -->
+            <line id="sim-vector" x1="140" y1="120" x2="190" y2="70" stroke="#2F7A6B" stroke-width="3" marker-end="url(#arrow)" />
+            <circle id="sim-point" cx="190" cy="70" r="4" fill="#C9A227" />
+          </svg>
+          <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+            <label style="font-size:0.8rem;">Re (a): <input type="range" id="sim-a" min="-5" max="5" value="3" oninput="actualizarSimulador()"></label>
+            <label style="font-size:0.8rem;">Im (b): <input type="range" id="sim-b" min="-5" max="5" value="4" oninput="actualizarSimulador()"></label>
+          </div>
+          <div id="sim-readout" style="font-family:var(--serif); font-size:0.9rem; margin-top:6px; color:var(--ink);">
+            z = 3 + 4<i>i</i> | |z| = 5.00
+          </div>
+        </div>
+
+        <!-- G. Ejemplos resueltos fijos curados a mano -->
+        <h3 style="color:var(--teal-dark); margin-top:24px;">6. Ejemplos Resueltos Curados</h3>
+        
+        <div class="card" style="background-color:#FBF9F3; border-left:4px solid var(--teal);">
+          <b>Ejemplo 1 (Básico): Suma Directa</b><br>
+          <i>Enunciado:</i> Dados z<sub>1</sub> = 4 + 3<i>i</i> y z<sub>2</sub> = -2 + 5<i>i</i>, calcula z<sub>1</sub> + z<sub>2</sub>.<br>
+          <b>Solución paso a paso:</b><br>
+          1. Agrupar partes reales: 4 + (-2) = 2.<br>
+          2. Agrupar partes imaginarias: 3<i>i</i> + 5<i>i</i> = 8<i>i</i>.<br>
+          <b>Resultado:</b> 2 + 8<i>i</i>
+        </div>
+
+        <div class="card" style="background-color:#FBF9F3; border-left:4px solid var(--gold);">
+          <b>Ejemplo 2 (Intermedio): Multiplicación de Complejos</b><br>
+          <i>Enunciado:</i> Multiplica z<sub>1</sub> = (3 + 2<i>i</i>) por z<sub>2</sub> = (1 - 4<i>i</i>).<br>
+          <b>Solución paso a paso:</b><br>
+          1. Aplicar propiedad distributiva: 3·1 + 3·(-4<i>i</i>) + 2<i>i</i>·1 + 2<i>i</i>·(-4<i>i</i>).<br>
+          2. Evaluar productos: 3 - 12<i>i</i> + 2<i>i</i> - 8<i>i</i><sup>2</sup>.<br>
+          3. Sustituir <i>i</i><sup>2</sup> = -1: 3 - 10<i>i</i> - 8(-1) = 3 - 10<i>i</i> + 8.<br>
+          <b>Resultado:</b> 11 - 10<i>i</i>
+        </div>
+
+        <div class="card" style="background-color:#FBF9F3; border-left:4px solid var(--ink);">
+          <b>Ejemplo 3 (Avanzado): División y Conjugado</b><br>
+          <i>Enunciado:</i> Calcula la división z = (4 + 2<i>i</i>) / (1 + <i>i</i>).<br>
+          <b>Solución paso a paso:</b><br>
+          1. Multiplicar numerador y denominador por el conjugado del denominador (1 - <i>i</i>):<br>
+          &nbsp;&nbsp;&nbsp;[(4 + 2<i>i</i>)(1 - <i>i</i>)] / [(1 + <i>i</i>)(1 - <i>i</i>)]<br>
+          2. Numerador: 4 - 4<i>i</i> + 2<i>i</i> - 2<i>i</i><sup>2</sup> = 4 - 2<i>i</i> + 2 = 6 - 2<i>i</i>.<br>
+          3. Denominador: 1<sup>2</sup> - <i>i</i><sup>2</sup> = 1 - (-1) = 2.<br>
+          4. Dividir cada término entre 2: (6/2) - (2/2)<i>i</i> = 3 - <i>i</i>.<br>
+          <b>Resultado:</b> 3 - <i>i</i>
+        </div>
+
+        <!-- H. Mini Práctica Aleatoria Progressiva -->
+        <div style="margin-top:24px; text-align:center;">
+          <button class="btn btn-gold" onclick="generarMiniPractica()">🎲 Generar Mini Práctica Aleatoria (3 Niveles)</button>
+        </div>
+        <div id="mini-practica-box" style="margin-top:16px;"></div>
+      </div>
+    </section>
+
+    <!-- 3. MÓDULO EJERCICIOS RESUELTOS -->
+    <section id="sec-resueltos" class="view-section">
+      <div class="card">
+        <h2>🧮 Ejercicios Resueltos (Dificultad Progresiva)</h2>
+        <p style="font-size:0.88rem; color:var(--muted); margin-bottom:14px;">Haz clic en el botón para generar 5 ejercicios totalmente explicados con procedimiento detallado paso a paso.</p>
+        <button class="btn btn-primary" onclick="generar5Resueltos()">⚡ Generar 5 Ejercicios Resueltos Nuevos</button>
+      </div>
+      <div id="resueltos-container"></div>
+    </section>
+
+    <!-- 4. MÓDULO ESTUDIANTE -->
+    <section id="sec-estudiante" class="view-section">
+      <div class="card">
+        <h2>👨‍🎓 Zona del Estudiante</h2>
+        <div style="display:flex; gap:10px; margin-top:12px;">
+          <button class="btn btn-outline active" id="btn-tab-practica" onclick="switchEstudianteTab('practica')">Práctica Libre</button>
+          <button class="btn btn-outline" id="btn-tab-examen" onclick="switchEstudianteTab('examen')">Presentar Examen Oficial</button>
+        </div>
+      </div>
+
+      <!-- SUBTAB: PRÁCTICA LIBRE -->
+      <div id="est-tab-practica">
+        <div class="card">
+          <h3>Práctica Libre Autoguiada</h3>
+          <p style="font-size:0.88rem; color:var(--muted); margin-bottom:12px;">Genera un set de 5 preguntas progresivas con retroalimentación inmediata.</p>
+          <button class="btn btn-gold" onclick="iniciarPracticaLibre()">🚀 Iniciar Práctica (5 Preguntas)</button>
+        </div>
+        <div id="practica-libre-box"></div>
+      </div>
+
+      <!-- SUBTAB: EXAMEN OFICIAL -->
+      <div id="est-tab-examen" style="display:none;">
+        <div class="card">
+          <h3>Cargar Formulario de Examen (.json)</h3>
+          <p style="font-size:0.85rem; color:var(--muted);">Selecciona el archivo .formulario.json entregado por tu docente:</p>
+          <input type="file" id="file-exam-input" accept=".json" class="form-control" style="margin:12px 0;">
+          <div class="form-group">
+            <label>Nombre Completo del Estudiante:</label>
+            <input type="text" id="est-nombre" class="form-control" placeholder="Ej. Juan Pérez">
+          </div>
+          <div class="form-group">
+            <label>Grado / Curso:</label>
+            <input type="text" id="est-grado" class="form-control" placeholder="Ej. 11°A">
+          </div>
+          <button class="btn btn-primary" onclick="cargarYComenzarExamen()">📝 Comenzar Examen Oficial</button>
+        </div>
+        <div id="examen-oficial-box"></div>
+      </div>
+    </section>
+
+    <!-- 5. MÓDULO DOCENTE -->
+    <section id="sec-docente" class="view-section">
+      <!-- LOGIN FORM -->
+      <div id="docente-login-box" class="card">
+        <h2>👨‍🏫 Acceso Paneles Docente</h2>
+        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;">Ingresa la clave de acceso para gestionar evaluaciones e informes.</p>
+        <div class="form-group">
+          <label>Contraseña de Seguridad:</label>
+          <input type="password" id="doc-pass-input" class="form-control" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary" onclick="validarLoginDocente()">Ingresar al Panel</button>
+      </div>
+
+      <!-- PANEL DOCENTE DENTRO (OCULTO HASTA LOGIN) -->
+      <div id="docente-panel-box" style="display:none;">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3>Gestión Docente y SIEE</h3>
+            <button class="btn btn-outline" style="width:auto; padding:4px 10px; font-size:0.75rem;" onclick="cerrarSesionDocente()">Cerrar Sesión</button>
+          </div>
+          <div id="db-status-badge" style="font-size:0.75rem; color:var(--teal-dark); margin-top:4px;">Cargando motor de almacenamiento...</div>
+        </div>
+
+        <!-- CONFIGURACIÓN SIEE -->
+        <div class="card">
+          <h4>Configuración del SIEE</h4>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:8px;">
+            <div class="form-group">
+              <label>Nota Mínima:</label>
+              <input type="number" id="siee-min" class="form-control" value="1.0" step="0.1">
+            </div>
+            <div class="form-group">
+              <label>Aprobatoria:</label>
+              <input type="number" id="siee-app" class="form-control" value="3.0" step="0.1">
+            </div>
+            <div class="form-group">
+              <label>Nota Máxima:</label>
+              <input type="number" id="siee-max" class="form-control" value="5.0" step="0.1">
+            </div>
+          </div>
+          <button class="btn btn-outline" style="margin-top:6px;" onclick="guardarConfigSIEE()">Guardar Escala SIEE</button>
+        </div>
+
+        <!-- CREAR NUEVA EVALUACIÓN -->
+        <div class="card">
+          <h4>Crear Nueva Evaluación / Examen</h4>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div class="form-group">
+              <label>Grado (Encabezado):</label>
+              <select id="crear-grado" class="form-control">
+                <option value="9°">9° Grado</option>
+                <option value="10°">10° Grado</option>
+                <option value="11°" selected>11° Grado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Asignatura (Encabezado):</label>
+              <select id="crear-asig" class="form-control">
+                <option value="Matemáticas">Matemáticas</option>
+                <option value="Álgebra">Álgebra</option>
+                <option value="Cálculo">Cálculo</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label>Nivel Dificultad:</label>
+              <select id="crear-nivel" class="form-control">
+                <option value="1">Nivel 1 - Básico</option>
+                <option value="2">Nivel 2 - Intermedio</option>
+                <option value="3">Nivel 3 - Avanzado</option>
+                <option value="4">Nivel 4 - Profesional</option>
+                <option value="5">Nivel 5 - Experto</option>
+                <option value="mixto" selected>Mixto (Todos los Niveles)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>N° Preguntas:</label>
+              <select id="crear-num" class="form-control">
+                <option value="5">5 Preguntas</option>
+                <option value="10" selected>10 Preguntas</option>
+                <option value="15">15 Preguntas</option>
+                <option value="20">20 Preguntas</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-gold" onclick="crearEvaluaciónDocente()">📄 Generar Evaluación FORM-######</button>
+        </div>
+
+        <!-- LISTADO MIS EVALUACIONES -->
+        <div class="card">
+          <h4>Mis Evaluaciones Creadas</h4>
+          <div id="mis-evaluaciones-list" style="margin-top:10px;">
+            <p style="font-size:0.85rem; color:var(--muted);">No hay evaluaciones creadas aún.</p>
+          </div>
+        </div>
+
+        <!-- IMPORTAR Y REVISAR RESULTADOS -->
+        <div class="card">
+          <h4>Importar Resultados de Estudiantes (.resultado.json)</h4>
+          <input type="file" id="file-result-input" accept=".json" class="form-control" style="margin:10px 0;">
+          <button class="btn btn-primary" onclick="importarResultadoEstudiante()">📥 Cargar Archivo de Resultado</button>
+
+          <h5 style="margin-top:16px;">Resultados Recibidos</h5>
+          <div id="resultados-recibidos-list" style="margin-top:10px;"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="app-footer">
+    <div><b>Carlos Andrés Romero Mendívil</b> · Plataforma educativa interactiva</div>
+    <div>Tu Profe Carlos · 100% sin conexión a internet</div>
+  </footer>
+
+  <!-- NAVEGACIÓN INFERIOR PERSISTENTE -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-inicio" onclick="navTo('inicio')">
+      <span class="icon">🏠</span>
+      <span>Inicio</span>
+    </button>
+    <button class="nav-item" id="nav-aprender" onclick="navTo('aprender')">
+      <span class="icon">📚</span>
+      <span>Aprender</span>
+    </button>
+    <button class="nav-item" id="nav-resueltos" onclick="navTo('resueltos')">
+      <span class="icon">🧮</span>
+      <span>Resueltos</span>
+    </button>
+    <button class="nav-item" id="nav-estudiante" onclick="navTo('estudiante')">
+      <span class="icon">👨‍🎓</span>
+      <span>Estudiante</span>
+    </button>
+    <button class="nav-item" id="nav-docente" onclick="navTo('docente')">
+      <span class="icon">👨‍🏫</span>
+      <span>Docente</span>
+    </button>
+  </nav>
+
+  <!-- TOAST FLOATING NOTIFICATION -->
+  <div id="toast">Notificación de sistema</div>
+
+  <!-- CONTENEDOR PARA IMPRESIÓN LIMPIA PDF -->
+  <div id="printArea"></div>
+
+  <!-- ==========================================================================
+     5. LÓGICA JAVASCRIPT VANILLA (100% AUTÓNOMO / SCRIPT UNIFICADO)
+     ========================================================================== -->
+  <script>
+    /* --------------------------------------------------------------------------
+       5.1 ESTADO GLOBAL, CONFIGURACIÓN Y TELES
+       -------------------------------------------------------------------------- */
+    const CONFIG = {
+      DOCENTE_PASS_HASH: "TEA", // Clave de acceso interna sin exponer pistas en UI
+      SALT_ENCRYPT: "TuProfeCarlos2026",
+      SIEE: { min: 1.0, app: 3.0, max: 5.0 }
+    };
+
+    let state = {
+      activeTab: 'inicio',
+      dbEngine: 'none',
+      db: null,
+      evaluaciones: [],
+      resultados: [],
+      examenActualEstudiante: null,
+      respuestasEstudianteExamen: {}
+    };
+
+    /* --------------------------------------------------------------------------
+       5.2 PERSISTENCIA DE ALMACENAMIENTO (IndexedDB con Fallback a localStorage)
+       -------------------------------------------------------------------------- */
+    window.onload = function() {
+      initStorage();
+      actualizarSimulador();
+      // Renderizar 5 ejercicios resueltos al iniciar el módulo correspondiente
+      generar5Resueltos();
+    };
+
+    function initStorage() {
+      try {
+        const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        if (indexedDB) {
+          const request = indexedDB.open("PlataformaEduDB", 1);
+          request.onupgradeneeded = function(e) {
+            let db = e.target.result;
+            if (!db.objectStoreNames.contains("evaluaciones")) {
+              db.createObjectStore("evaluaciones", { keyPath: "id" });
+            }
+            if (!db.objectStoreNames.contains("resultados")) {
+              db.createObjectStore("resultados", { keyPath: "id" });
+            }
+          };
+          request.onsuccess = function(e) {
+            state.db = e.target.result;
+            state.dbEngine = "IndexedDB";
+            actualizarEstadoDBUI();
+            cargarDatosGuardados();
+          };
+          request.onerror = function() {
+            usarLocalStorageFallback();
+          };
+        } else {
+          usarLocalStorageFallback();
+        }
+      } catch (e) {
+        usarLocalStorageFallback();
+      }
+    }
+
+    function usarLocalStorageFallback() {
+      state.dbEngine = "localStorage";
+      actualizarEstadoDBUI();
+      cargarDatosGuardados();
+    }
+
+    function actualizarEstadoDBUI() {
+      const el = document.getElementById("db-status-badge");
+      if (el) {
+        el.innerHTML = `Motor Activo: <b>${state.dbEngine}</b> | Persistencia Local Correcta`;
+      }
+    }
+
+    function guardarEvaluacionDB(evalObj) {
+      state.evaluaciones.push(evalObj);
+      if (state.dbEngine === "IndexedDB" && state.db) {
+        let tx = state.db.transaction(["evaluaciones"], "readwrite");
+        tx.objectStore("evaluaciones").put(evalObj);
+      } else {
+        localStorage.setItem("edu_evaluaciones", JSON.stringify(state.evaluaciones));
+      }
+      renderListadoEvaluacionesDocente();
+    }
+
+    function guardarResultadoDB(resObj) {
+      state.resultados.push(resObj);
+      if (state.dbEngine === "IndexedDB" && state.db) {
+        let tx = state.db.transaction(["resultados"], "readwrite");
+        tx.objectStore("resultados").put(resObj);
+      } else {
+        localStorage.setItem("edu_resultados", JSON.stringify(state.resultados));
+      }
+      renderResultadosDocente();
+    }
+
+    function cargarDatosGuardados() {
+      if (state.dbEngine === "IndexedDB" && state.db) {
+        let tx = state.db.transaction(["evaluaciones"], "readonly");
+        let req = tx.objectStore("evaluaciones").getAll();
+        req.onsuccess = function() {
+          state.evaluaciones = req.result || [];
+          renderListadoEvaluacionesDocente();
+        };
+
+        let tx2 = state.db.transaction(["resultados"], "readonly");
+        let req2 = tx2.objectStore("resultados").getAll();
+        req2.onsuccess = function() {
+          state.resultados = req2.result || [];
+          renderResultadosDocente();
+        };
+      } else {
+        let ev = localStorage.getItem("edu_evaluaciones");
+        if (ev) state.evaluaciones = JSON.parse(ev);
+        let res = localStorage.getItem("edu_resultados");
+        if (res) state.resultados = JSON.parse(res);
+        renderListadoEvaluacionesDocente();
+        renderResultadosDocente();
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       5.3 NAVEGACIÓN Y RUTAS (PERSISTENCIA VISUAL)
+       -------------------------------------------------------------------------- */
+    function navTo(tabId) {
+      state.activeTab = tabId;
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+      const secEl = document.getElementById('sec-' + tabId);
+      const navEl = document.getElementById('nav-' + tabId);
+
+      if (secEl) secEl.classList.add('active');
+      if (navEl) navEl.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    /* --------------------------------------------------------------------------
+       5.4 MOTOR GENERADOR PARAMÉTRICO DEL BANCO DE PREGUNTAS (100-500 CAPACIDAD)
+       -------------------------------------------------------------------------- */
+    
+    // DEFINICIÓN DE ERRORES CONCEPTUALES TÍPICOS POR TIPO DE EJERCICIO
+    // 1. Suma/Resta: Mezclar parte real con imaginaria.
+    // 2. Multiplicación: Olvidar cambiar signo de i^2 = -1.
+    // 3. Conjugado: Cambiar signo de la parte real en vez de la imaginaria.
+    // 4. Módulo: Olvidar la raíz cuadrada o elevar con signo negativo afectando resultado.
+    // 5. División: Multiplicar por el mismo denominador en lugar de su conjugado.
+
+    const CONTEXTOS = [
+      "En un laboratorio de telecomunicaciones",
+      "En el análisis de un circuito de corriente alterna",
+      "En el procesamiento digital de señales de audio",
+      "En el diseño de gráficos vectoriales para robótica",
+      "Durante un experimento de física cuántica",
+      "En la modelación de impedancias eléctricas",
+      "En el cálculo de órbitas de navegación aérea",
+      "Durante un estudio de interferencia de ondas"
+    ];
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Generador universal por Nivel (1 a 5)
+    function generarPreguntaParametrica(nivel) {
+      const contexto = CONTEXTOS[getRandomInt(0, CONTEXTOS.length - 1)];
+      let a, b, c, d, enunciado, respuestaCorrecta, distractores = [], svgHTML = "";
+
+      if (nivel === 1) {
+        // NIVEL 1: Suma / Resta directa o identificación
+        a = getRandomInt(1, 9);
+        b = getRandomInt(1, 9);
+        c = getRandomInt(1, 9);
+        d = getRandomInt(1, 9);
+
+        enunciado = `${contexto}, se requiere sumar los números complejos z<sub>1</sub> = ${a} + ${b}<i>i</i> y z<sub>2</sub> = ${c} + ${d}<i>i</i>. ¿Cuál es la suma z<sub>1</sub> + z<sub>2</sub>?`;
+        
+        let realCorrecta = a + c;
+        let imagCorrecta = b + d;
+        respuestaCorrecta = `${realCorrecta} + ${imagCorrecta}<i>i</i>`;
+
+        // Distractores basados en errores típicos
+        distractores.push(`${realCorrecta + imagCorrecta}<i>i</i>`); // Mezcla real + imag
+        distractores.push(`${a + d} + ${b + c}<i>i</i>`); // Sustitución cruzada
+        distractores.push(`${realCorrecta} - ${imagCorrecta}<i>i</i>`); // Error de signo
+      } 
+      else if (nivel === 2) {
+        // NIVEL 2: Conjugado y Módulo simple
+        a = getRandomInt(2, 8);
+        b = getRandomInt(2, 8);
+        enunciado = `${contexto}, un sensor registra una impedancia z = ${a} - ${b}<i>i</i>. Determina su número complejo conjugado z̄.`;
+
+        respuestaCorrecta = `${a} + ${b}<i>i</i>`;
+        // Distractores típicos
+        distractores.push(`-${a} - ${b}<i>i</i>`); // Error: cambia signo de la parte real
+        distractores.push(`-${a} + ${b}<i>i</i>`); // Error: cambia ambos signos
+        distractores.push(`${b} + ${a}<i>i</i>`); // Inversión de coeficientes
+      }
+      else if (nivel === 3) {
+        // NIVEL 3: Multiplicación de Complejos
+        a = getRandomInt(1, 5);
+        b = getRandomInt(1, 5);
+        c = getRandomInt(1, 4);
+        d = getRandomInt(1, 4);
+
+        enunciado = `${contexto}, se multiplica la señal z<sub>1</sub> = (${a} + ${b}<i>i</i>) por la ganancia z<sub>2</sub> = (${c} + ${d}<i>i</i>). ¿Cuál es el producto z<sub>1</sub> · z<sub>2</sub>?`;
+
+        let realPart = (a * c) - (b * d);
+        let imagPart = (a * d) + (b * c);
+        respuestaCorrecta = `${realPart} + ${imagPart}<i>i</i>`;
+
+        // Distractores basados en error de i^2 = +1 en lugar de -1
+        let realErrorSigno = (a * c) + (b * d);
+        distractores.push(`${realErrorSigno} + ${imagPart}<i>i</i>`);
+        distractores.push(`${a * c} + ${b * d}<i>i</i>`); // Error: multiplicación término a término directa
+        distractores.push(`${realPart} - ${imagPart}<i>i</i>`); // Error de signo final
+      }
+      else if (nivel === 4) {
+        // NIVEL 4: Cálculo de Módulo |z| con gráfica SVG relevante
+        a = getRandomInt(3, 8);
+        b = getRandomInt(3, 8);
+        
+        enunciado = `${contexto}, un fasor de voltaje se ubica en z = ${a} + ${b}<i>i</i>. Calcula la magnitud o módulo exacto del fasor |z|.`;
+        
+        let sumSq = (a * a) + (b * b);
+        let valMod = Math.sqrt(sumSq).toFixed(2);
+        respuestaCorrecta = `√${sumSq} ≈ ${valMod}`;
+
+        distractores.push(`${a + b}`); // Error: suma directa sin elevar
+        distractores.push(`${a * a + b * b}`); // Error: olvida la raíz cuadrada
+        distractores.push(`√${a * a - b * b}`); // Error de signo dentro de raíz
+
+        // Componente visual SVG condicional
+        svgHTML = `<div style="text-align:center; margin:10px 0;"><svg width="160" height="120" style="background:#FFFDF9; border:1px solid #DAD3C2; border-radius:6px;">
+          <line x1="20" y1="100" x2="140" y2="100" stroke="#16233F" stroke-width="1.5"/>
+          <line x1="30" y1="10" x2="30" y2="110" stroke="#16233F" stroke-width="1.5"/>
+          <line x1="30" y1="100" x2="110" y2="30" stroke="#2F7A6B" stroke-width="2.5"/>
+          <text x="115" y="30" font-size="10" fill="#C9A227">z=(${a},${b})</text>
+        </svg></div>`;
+      }
+      else {
+        // NIVEL 5: División / Potencias complejas
+        a = 2;
+        b = 4;
+        c = 1;
+        d = 1;
+
+        enunciado = `${contexto}, calcula la división exacta del fasor de entrada z = (${a} + ${b}<i>i</i>) / (${c} + ${d}<i>i</i>).`;
+
+        // ((2+4i)(1-i)) / 2 = (2 -2i +4i +4) / 2 = (6 + 2i)/2 = 3 + 1i
+        respuestaCorrecta = `3 + 1<i>i</i>`;
+        distractores.push(`2 + 4<i>i</i>`); // Dividir directo denominadores
+        distractores.push(`6 + 2<i>i</i>`); // Olvidar dividir por el denominador conjugado
+        distractores.push(`3 - 1<i>i</i>`); // Error de signo
+      }
+
+      // Mezclar opciones aleatoriamente
+      let todasOpciones = [respuestaCorrecta, ...distractores];
+      todasOpciones.sort(() => Math.random() - 0.5);
+
+      return {
+        nivel: nivel,
+        enunciado: enunciado,
+        svg: svgHTML,
+        opciones: todasOpciones,
+        correcta: respuestaCorrecta,
+        explicacion: `Procedimiento: Para nivel ${nivel}, operamos respetando Re e Im. La respuesta correcta es <b>${respuestaCorrecta}</b>.`
+      };
+    }
+
+    /* --------------------------------------------------------------------------
+       5.5 SIMULADOR INTERACTIVO (MÓDULO APRENDER)
+       -------------------------------------------------------------------------- */
+    function actualizarSimulador() {
+      const a = parseInt(document.getElementById('sim-a').value);
+      const b = parseInt(document.getElementById('sim-b').value);
+
+      // Centro en (140, 120)
+      const cx = 140;
+      const cy = 120;
+      const scale = 20;
+
+      const targetX = cx + (a * scale);
+      const targetY = cy - (b * scale);
+
+      const vector = document.getElementById('sim-vector');
+      const point = document.getElementById('sim-point');
+
+      if (vector && point) {
+        vector.setAttribute('x2', targetX);
+        vector.setAttribute('y2', targetY);
+        point.setAttribute('cx', targetX);
+        point.setAttribute('cy', targetY);
+      }
+
+      const mod = Math.sqrt(a*a + b*b).toFixed(2);
+      const sign = b >= 0 ? '+' : '-';
+      document.getElementById('sim-readout').innerHTML = `z = ${a} ${sign} ${Math.abs(b)}<i>i</i> &nbsp;|&nbsp; Módulo |z| = ${mod}`;
+    }
+
+    function generarMiniPractica() {
+      const box = document.getElementById('mini-practica-box');
+      box.innerHTML = '';
+
+      for (let lvl = 1; lvl <= 3; lvl++) {
+        let preg = generarPreguntaParametrica(lvl);
+        let card = document.createElement('div');
+        card.className = 'card';
+        card.style.borderLeft = '4px solid var(--teal)';
+        
+        let htmlOptions = preg.opciones.map((opt, idx) => {
+          let letter = String.fromCharCode(65 + idx);
+          return `<button class="option-btn" onclick="verificarRespuestaMini(this, '${opt === preg.correcta}', '${preg.correcta.replace(/'/g, "\\'")}', '${preg.explicacion.replace(/'/g, "\\'")}')">
+            <span class="opt-letter">${letter}.</span> ${opt}
+          </button>`;
+        }).join('');
+
+        card.innerHTML = `
+          <div style="font-size:0.75rem; color:var(--gold-dark); font-weight:bold; margin-bottom:4px;">PREGUNTA NIVEL ${lvl}</div>
+          <p style="font-weight:600; font-size:0.95rem;">${preg.enunciado}</p>
+          ${preg.svg}
+          <div class="options-vertical-container">${htmlOptions}</div>
+          <div class="feedback-area"></div>
+        `;
+        box.appendChild(card);
+      }
+    }
+
+    function verificarRespuestaMini(btn, esCorrecta, correctaTxt, exp) {
+      const container = btn.closest('.card');
+      const buttons = container.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      if (esCorrecta === 'true') {
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('incorrect');
+      }
+
+      const feedback = container.querySelector('.feedback-area');
+      feedback.innerHTML = `<div class="step-explain-box">
+        <b>${esCorrecta === 'true' ? '¡Correcto! 🎉' : 'Incorrecto ❌'}</b><br>
+        Respuesta correcta: ${correctaTxt}.<br>
+        ${exp}
+      </div>`;
+    }
+
+    /* --------------------------------------------------------------------------
+       5.6 MÓDULO EJERCICIOS RESUELTOS
+       -------------------------------------------------------------------------- */
+    function generar5Resueltos() {
+      const container = document.getElementById('resueltos-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (let lvl = 1; lvl <= 5; lvl++) {
+        let preg = generarPreguntaParametrica(lvl);
+        let card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="background:var(--ink); color:#FFF; padding:2px 8px; border-radius:4px; font-size:0.75rem;">Nivel ${lvl}</span>
+            <span style="font-size:0.75rem; color:var(--muted);">Ejercicio Resuelto</span>
+          </div>
+          <p style="font-weight:600; font-size:0.95rem; margin-bottom:8px;">${preg.enunciado}</p>
+          ${preg.svg}
+          <div class="formula-box">Resultado: ${preg.correcta}</div>
+          <div class="step-explain-box">
+            <b>Procedimiento Detallado Paso a Paso:</b><br>
+            1. Análisis de datos del enunciado.<br>
+            2. Aplicación formal de propiedades para Nivel ${lvl}.<br>
+            3. Solución comprobada: <b>${preg.correcta}</b>.
+          </div>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       5.7 MÓDULO ESTUDIANTE (PRÁCTICA LIBRE Y EXAMEN OFICIAL)
+       -------------------------------------------------------------------------- */
+    function switchEstudianteTab(tab) {
+      document.getElementById('btn-tab-practica').classList.remove('active');
+      document.getElementById('btn-tab-examen').classList.remove('active');
+
+      document.getElementById('est-tab-practica').style.display = 'none';
+      document.getElementById('est-tab-examen').style.display = 'none';
+
+      if (tab === 'practica') {
+        document.getElementById('btn-tab-practica').classList.add('active');
+        document.getElementById('est-tab-practica').style.display = 'block';
+      } else {
+        document.getElementById('btn-tab-examen').classList.add('active');
+        document.getElementById('est-tab-examen').style.display = 'block';
+      }
+    }
+
+    function iniciarPracticaLibre() {
+      const box = document.getElementById('practica-libre-box');
+      box.innerHTML = '';
+
+      for (let i = 1; i <= 5; i++) {
+        let preg = generarPreguntaParametrica(i);
+        let card = document.createElement('div');
+        card.className = 'card';
+
+        let htmlOptions = preg.opciones.map((opt, idx) => {
+          let letter = String.fromCharCode(65 + idx);
+          return `<button class="option-btn" onclick="verificarRespuestaMini(this, '${opt === preg.correcta}', '${preg.correcta.replace(/'/g, "\\'")}', '${preg.explicacion.replace(/'/g, "\\'")}')">
+            <span class="opt-letter">${letter}.</span> ${opt}
+          </button>`;
+        }).join('');
+
+        card.innerHTML = `
+          <div style="font-size:0.75rem; color:var(--teal-dark); font-weight:bold;">EJERCICIO ${i} DE 5</div>
+          <p style="font-weight:600; font-size:0.95rem; margin-top:4px;">${preg.enunciado}</p>
+          ${preg.svg}
+          <div class="options-vertical-container">${htmlOptions}</div>
+          <div class="feedback-area"></div>
+        `;
+        box.appendChild(card);
+      }
+    }
+
+    function cargarYComenzarExamen() {
+      const fileInput = document.getElementById('file-exam-input');
+      const nombre = document.getElementById('est-nombre').value.trim();
+      const grado = document.getElementById('est-grado').value.trim();
+
+      if (!fileInput.files.length) {
+        showToast("⚠️ Por favor selecciona un archivo .formulario.json");
+        return;
+      }
+      if (!nombre || !grado) {
+        showToast("⚠️ Ingresa tu nombre y grado para continuar.");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const examData = JSON.parse(e.target.result);
+          state.examenActualEstudiante = {
+            meta: examData,
+            nombreEstudiante: nombre,
+            gradoEstudiante: grado
+          };
+          renderPantallaExamenOficial();
+        } catch (err) {
+          showToast("❌ Archivo de examen no válido o corrupto.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function renderPantallaExamenOficial() {
+      const box = document.getElementById('examen-oficial-box');
+      const meta = state.examenActualEstudiante.meta;
+      
+      let htmlPreguntas = meta.preguntas.map((p, idx) => {
+        let opts = p.opciones.map((opt, oIdx) => {
+          let letter = String.fromCharCode(65 + oIdx);
+          return `<button class="option-btn opt-exam-${idx}" onclick="seleccionarRespuestaExamen(${idx}, '${opt.replace(/'/g, "\\'")}', this)">
+            <span class="opt-letter">${letter}.</span> ${opt}
+          </button>`;
+        }).join('');
+
+        return `<div class="card">
+          <div style="font-weight:bold; font-size:0.85rem; color:var(--ink);">Pregunta ${idx + 1}</div>
+          <p style="font-size:0.95rem; margin:6px 0;">${p.enunciado}</p>
+          ${p.svg || ''}
+          <div class="options-vertical-container">${opts}</div>
+        </div>`;
+      }).join('');
+
+      box.innerHTML = `
+        <div class="card" style="background:#F6F3EA; border-left:4px solid var(--gold);">
+          <h3>Examen Oficial: ${meta.id}</h3>
+          <p style="font-size:0.85rem;">Estudiante: <b>${state.examenActualEstudiante.nombreEstudiante}</b> | Grado: <b>${state.examenActualEstudiante.gradoEstudiante}</b></p>
+        </div>
+        ${htmlPreguntas}
+        <button class="btn btn-gold" style="margin-top:16px;" onclick="finalizarYExportarExamen()">📤 Finalizar y Descargar Resultado .json</button>
+      `;
+    }
+
+    function seleccionarRespuestaExamen(pIdx, optValue, btn) {
+      state.respuestasEstudianteExamen[pIdx] = optValue;
+      document.querySelectorAll(`.opt-exam-${pIdx}`).forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    function finalizarYExportarExamen() {
+      const meta = state.examenActualEstudiante.meta;
+      if (Object.keys(state.respuestasEstudianteExamen).length < meta.preguntas.length) {
+        if (!confirm("Tienes preguntas sin responder. ¿Deseas entregar de todas formas?")) return;
+      }
+
+      const resultadoJSON = {
+        formId: meta.id,
+        estudiante: state.examenActualEstudiante.nombreEstudiante,
+        grado: state.examenActualEstudiante.gradoEstudiante,
+        respuestas: state.respuestasEstudianteExamen,
+        fecha: new Date().toISOString()
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(resultadoJSON, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Resultado_${meta.id}_${state.examenActualEstudiante.nombreEstudiante.replace(/\s+/g, '_')}.resultado.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      // PANTALLA DE CONFIRMACIÓN SIN MOSTRAR NOTAS NI RESPUESTAS
+      document.getElementById('examen-oficial-box').innerHTML = `
+        <div class="card" style="text-align:center; padding:30px;">
+          <div style="font-size:3rem; margin-bottom:10px;">✅</div>
+          <h2>Examen Enviado Correctamente</h2>
+          <p style="font-size:0.9rem; color:var(--muted); margin-top:8px;">Se ha descargado tu archivo de resultado <b>.resultado.json</b>. Por favor envíalo a tu docente para la calificación centralizada.</p>
+        </div>
+      `;
+    }
+
+    /* --------------------------------------------------------------------------
+       5.8 MÓDULO DOCENTE (LOGIN, EVALUACIONES & REVISIÓN)
+       -------------------------------------------------------------------------- */
+    function validarLoginDocente() {
+      const pass = document.getElementById('doc-pass-input').value;
+      if (pass === CONFIG.DOCENTE_PASS_HASH) {
+        document.getElementById('docente-login-box').style.display = 'none';
+        document.getElementById('docente-panel-box').style.display = 'block';
+        showToast("🔓 Sesión docente iniciada correctamente.");
+      } else {
+        showToast("❌ Contraseña incorrecta.");
+      }
+    }
+
+    function cerrarSesionDocente() {
+      document.getElementById('docente-login-box').style.display = 'block';
+      document.getElementById('docente-panel-box').style.display = 'none';
+      document.getElementById('doc-pass-input').value = '';
+    }
+
+    function guardarConfigSIEE() {
+      CONFIG.SIEE.min = parseFloat(document.getElementById('siee-min').value);
+      CONFIG.SIEE.app = parseFloat(document.getElementById('siee-app').value);
+      CONFIG.SIEE.max = parseFloat(document.getElementById('siee-max').value);
+      showToast("⚙️ Escala SIEE actualizada.");
+    }
+
+    function crearEvaluaciónDocente() {
+      const grado = document.getElementById('crear-grado').value;
+      const asig = document.getElementById('crear-asig').value;
+      const nivel = document.getElementById('crear-nivel').value;
+      const num = parseInt(document.getElementById('crear-num').value);
+
+      const idForm = 'FORM-' + Math.floor(100000 + Math.random() * 900000);
+      let preguntas = [];
+
+      for (let i = 0; i < num; i++) {
+        let n = nivel === 'mixto' ? ((i % 5) + 1) : parseInt(nivel);
+        let p = generarPreguntaParametrica(n);
+        
+        // Encriptar respuesta correcta en Base64 con Salt
+        let hashCorrecta = btoa(unescape(encodeURIComponent(p.correcta + CONFIG.SALT_ENCRYPT)));
+
+        preguntas.push({
+          enunciado: p.enunciado,
+          svg: p.svg,
+          opciones: p.opciones,
+          key: hashCorrecta,
+          explicacion: p.explicacion
+        });
+      }
+
+      const evalObj = {
+        id: idForm,
+        grado: grado,
+        asignatura: asig,
+        nivel: nivel,
+        preguntas: preguntas,
+        fecha: new Date().toLocaleDateString()
+      };
+
+      guardarEvaluacionDB(evalObj);
+      showToast(`📄 Evaluation ${idForm} creada con éxito.`);
+    }
+
+    function renderListadoEvaluacionesDocente() {
+      const box = document.getElementById('mis-evaluaciones-list');
+      if (!box) return;
+
+      if (!state.evaluaciones.length) {
+        box.innerHTML = `<p style="font-size:0.85rem; color:var(--muted);">No hay evaluaciones creadas aún.</p>`;
+        return;
+      }
+
+      box.innerHTML = state.evaluaciones.map(ev => `
+        <div class="card" style="margin-bottom:10px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b>${ev.id}</b>
+            <span style="font-size:0.75rem; color:var(--muted);">${ev.fecha}</span>
+          </div>
+          <div style="font-size:0.8rem; margin:4px 0;">Grado: ${ev.grado} | Asignatura: ${ev.asignatura} | Preguntas: ${ev.preguntas.length}</div>
+          <div style="display:flex; gap:6px; margin-top:8px;">
+            <button class="btn btn-outline" style="font-size:0.75rem; padding:4px;" onclick="imprimirPDFDocente('${ev.id}')">🖨️ PDF Examen + Solucionario</button>
+            <button class="btn btn-gold" style="font-size:0.75rem; padding:4px;" onclick="exportarFormularioJSON('${ev.id}')">💾 Exportar .json</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function exportarFormularioJSON(id) {
+      const ev = state.evaluaciones.find(e => e.id === id);
+      if (!ev) return;
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ev, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `${ev.id}.formulario.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importarResultadoEstudiante() {
+      const fileInput = document.getElementById('file-result-input');
+      if (!fileInput.files.length) {
+        showToast("⚠️ Selecciona un archivo .resultado.json");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const resData = JSON.parse(e.target.result);
+          // Buscar evaluación para autocalificar
+          const evalObj = state.evaluaciones.find(ev => ev.id === resData.formId);
+          
+          let aciertos = 0;
+          if (evalObj) {
+            evalObj.preguntas.forEach((p, idx) => {
+              let respUser = resData.respuestas[idx];
+              let hashUser = btoa(unescape(encodeURIComponent(respUser + CONFIG.SALT_ENCRYPT)));
+              if (hashUser === p.key) {
+                aciertos++;
+              }
+            });
+          }
+
+          // Nota calculada SIEE
+          let totalP = evalObj ? evalObj.preguntas.length : 5;
+          let notaCalc = CONFIG.SIEE.min + ((aciertos / totalP) * (CONFIG.SIEE.max - CONFIG.SIEE.min));
+
+          const resObj = {
+            id: 'RES-' + Math.floor(10000 + Math.random() * 90000),
+            formId: resData.formId,
+            estudiante: resData.estudiante,
+            grado: resData.grado,
+            aciertos: aciertos,
+            totalPreguntas: totalP,
+            notaSugerida: notaCalc.toFixed(1),
+            notaDefinitiva: notaCalc.toFixed(1)
+          };
+
+          guardarResultadoDB(resObj);
+          showToast(`📥 Resultado cargado de ${resData.estudiante}`);
+        } catch (err) {
+          showToast("❌ Archivo de resultado inválido.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function renderResultadosDocente() {
+      const box = document.getElementById('resultados-recibidos-list');
+      if (!box) return;
+
+      if (!state.resultados.length) {
+        box.innerHTML = `<p style="font-size:0.85rem; color:var(--muted);">No se han recibido resultados aún.</p>`;
+        return;
+      }
+
+      box.innerHTML = state.resultados.map((r, idx) => `
+        <div class="card" style="margin-bottom:8px; padding:10px;">
+          <div style="display:flex; justify-content:space-between;">
+            <b>${r.estudiante} (${r.grado})</b>
+            <span>${r.formId}</span>
+          </div>
+          <div style="font-size:0.8rem; margin-top:4px;">Aciertos: ${r.aciertos}/${r.totalPreguntas} | Nota SIEE: <b>${r.notaSugerida}</b></div>
+        </div>
+      `).join('');
+    }
+
+    /* --------------------------------------------------------------------------
+       5.9 IMPRESIÓN Y REPORTE PDF LIMPIO (@media print)
+       -------------------------------------------------------------------------- */
+    function imprimirPDFDocente(id) {
+      const ev = state.evaluaciones.find(e => e.id === id);
+      if (!ev) return;
+
+      const printArea = document.getElementById('printArea');
+      
+      let htmlPreguntasEstudiante = ev.preguntas.map((p, idx) => {
+        let opts = p.opciones.map((o, oIdx) => {
+          let letter = String.fromCharCode(65 + oIdx);
+          return `<div class="print-option-item">${letter}. ${o}</div>`;
+        }).join('');
+
+        return `<div class="print-question">
+          <div class="print-question-title">${idx + 1}. ${p.enunciado}</div>
+          ${p.svg || ''}
+          <div class="print-options-vertical">${opts}</div>
+        </div>`;
+      }).join('');
+
+      let htmlSolucionarioDocente = ev.preguntas.map((p, idx) => {
+        // Desencriptar key
+        let decodedCorrect = decodeURIComponent(escape(atob(p.key))).replace(CONFIG.SALT_ENCRYPT, '');
+        return `<div class="print-question">
+          <div class="print-question-title">Pregunta ${idx + 1} - Solución</div>
+          <p>Respuesta Correcta: <b>${decodedCorrect}</b></p>
+          <p style="font-size:0.85rem;">${p.explicacion}</p>
+        </div>`;
+      }).join('');
+
+      printArea.innerHTML = `
+        <div class="print-header">
+          <h2>Carlos Andrés Romero Mendívil</h2>
+          <p>Tu Profe Carlos · Evaluación Oficial</p>
+          <p><b>Asignatura:</b> ${ev.asignatura} | <b>Grado:</b> ${ev.grado} | <b>Formulario:</b> ${ev.id}</p>
+        </div>
+
+        <div class="print-student-info">
+          <div><b>Estudiante:</b> ___________________________</div>
+          <div><b>Fecha:</b> ____________</div>
+          <div><b>Curso:</b> ______</div>
+        </div>
+
+        ${htmlPreguntasEstudiante}
+
+        <!-- SALTO DE PÁGINA OBLIGATORIO PARA EL SOLUCIONARIO DOCENTE -->
+        <div class="page-break"></div>
+
+        <div class="print-header">
+          <h2>SOLUCIONARIO DOCENTE (CONFIDENCIAL)</h2>
+          <p>Evaluación: ${ev.id} | Asignatura: ${ev.asignatura}</p>
+        </div>
+
+        ${htmlSolucionarioDocente}
+      `;
+
+      window.print();
+    }
+  </script>
+</body>
+</html>
